@@ -1,0 +1,39 @@
+<div class="container">
+
+  <form [formGroup]="form" class="form-group d-flex form-row ">
+
+    <div class="form-row col-12">
+      <div class="col-md-5 mb-2">
+        <input type="text" placeholder="Nombre del plato" class="form-control">
+      </div>
+
+      <div class="col-md-5 mb-2">
+        <ng-select [items]="myOptions" [placeholder]="'Seleccione tipo'" [bindLabel]="'label'" [bindValue]="'value'"
+           [formControlName]="'plato1'">
+        </ng-select>
+      </div>
+
+      <div class="input-group col-md-2 mb-2">
+        <input type="text" placeholder="PVP" class="form-control" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <span class="input-group-text" id="basic-addon2">€</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-group col-12 mb-2">
+      <textarea name="" id="" class="col-12" rows="2"></textarea>
+    </div>
+
+    <div class="col-md-12 mt-md-4">
+      <div class="form-row">
+        <div class="col-12 col-md-6">
+          <button class="form-control btn btn-danger  btn-lg btn-block">Cancelar</button>
+        </div>
+        <div class="col-md-6 col-12 ">
+          <button class="form-control btn btn-primary btn-lg  btn-block">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

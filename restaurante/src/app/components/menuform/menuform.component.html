@@ -1,0 +1,41 @@
+<div class="container">
+
+
+<form  [formGroup]="form" class="form-group d-flex form-row ">
+
+<div class="col-md-6 mb-2">
+  <input type="text" placeholder="Nombre del menú" class="form-control">
+</div>
+<div class="col-md-6 mb-2">
+  <input type="file" placeholder="Selecciona una imagen" class="form-control p-1">
+</div>
+<div class="col-md-12 mb-2">
+  <ng-select [items]="myOptions" [placeholder]="'Seleccione plato'" [bindLabel]="'label'" [bindValue]="'value'" [multiple]="true" [formControlName]="'plato1'" >
+  </ng-select>
+</div>
+
+<div class="input-group col-md-6 mb-2">
+  <input type="text" readonly value="Precio real" class="form-control" aria-describedby="basic-addon1">
+  <div class="input-group-append">
+    <span class="input-group-text" id="basic-addon1">€</span>
+  </div>
+</div>
+
+<div class="input-group col-md-6 mb-2">
+  <input type="text" placeholder="PVP" class="form-control" aria-describedby="basic-addon2">
+  <div class="input-group-append">
+    <span class="input-group-text" id="basic-addon2">€</span>
+  </div>
+</div>
+<div class="col-md-12 mt-md-4">
+  <div class="form-row">
+    <div class="col-12 col-md-6">
+      <button class="form-control btn btn-danger  btn-lg btn-block">Cancelar</button>
+    </div>
+    <div class="col-md-6 col-12 ">
+      <button class="form-control btn btn-primary btn-lg  btn-block">Aceptar</button>
+    </div>
+  </div>
+</div>
+</form>
+</div>

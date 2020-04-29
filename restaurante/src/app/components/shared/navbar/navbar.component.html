@@ -1,0 +1,21 @@
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+  <h5 class="my-0 mr-md-auto font-weight-normal"><a [routerLink]="['home']">Company name</a></h5>
+
+  <nav class="my-2 my-md-0 mr-md-3">
+    <a class="p-2 text-dark" href="#menus">Menús</a>
+    <a class="p-2 text-dark" href="#carta">La Carta</a>
+    <a  *ngIf="false"class="p-2 text-dark" href="#contacto">Contacto</a>
+    <a class="p-2 text-dark" href="#pedidos">Pedidos</a>
+    <!-- Si estas registrado
+      <a class="p-2 text-dark" href="#">Mi cuenta</a>
+    -->
+  </nav>
+  <!-- Si no estás registrado -->
+  <!-- <a class="btn btn-outline-primary mx-2" [routerLink]="['login']">Iniciar sesión</a>
+  <a class="btn btn-outline-secondary" [routerLink]="['registro']">Registrarse</a> -->
+  <!-- Si estas registrado -->
+    <!-- Si eres cliente
+    <a class="btn btn-outline-primary mx-2" [routerLink]="['micuenta']">Mi cuenta</a> -->
+    <a class="btn btn-outline-danger mx-2" href="#">Cerrar sesión</a>
+
+</div>

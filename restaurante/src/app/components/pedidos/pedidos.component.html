@@ -1,0 +1,146 @@
+<h1 *ngIf="true" class="my-4 text-center">Pedidos</h1>
+<div class="table-responsive">
+  <table class="table table-light">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">#Pedido</th>
+        <th scope="col" *ngIf="true">#Cliente</th>
+        <th scope="col" *ngIf="true">Fecha</th>
+        <th scope="col" *ngIf="true" class="w-25">Dirección</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Detalles</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-warning">
+        <th scope="row">132213</th>
+        <td>342</td>
+        <td>13/05/2020</td>
+        <td>C/ Archiduque Carlos 12, puerta 7, Valencia, 46018</td>
+        <td *ngIf="false">Pendiente</td>
+        <td>
+          <div class="form-group">
+            <select class="selectpicker form-control w-50">
+            <option>Pendiente</option>
+            <option>En proceso</option>
+            <option>Entregado</option>
+            <option>Cancelado</option>
+          </select>
+        </div>
+        </td>
+        <td>100 €</td>
+        <td><button *ngIf="false" type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#exampleModalCenter">
+            Ver más
+          </button>
+          <div *ngIf="true">
+            <p>Menu A - 2u.</p>
+            <p>Menú C - 1u.</p>
+          </div>
+          <button *ngIf="true" type="button" class="btn btn-danger ml-1" data-toggle="modal"
+            data-target="#exampleModalCenterCancel">
+            Cancelar
+          </button>
+        </td>
+      </tr>
+      <tr class="table-info">
+        <th scope="row">212351</th>
+        <td *ngIf="true">444</td>
+        <td *ngIf="true">05/06/2020</td>
+        <td *ngIf="true">Av/ Tres Forques 41, puerta 27, Valencia, 46018</td>
+        <td>En proceso</td>
+        <td>144 €</td>
+        <td><button *ngIf="false" type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#exampleModalCenter">
+            Ver más
+          </button>
+          <div *ngIf="true">
+            <p>Menu A - 1u.</p>
+            <p>Menú B - 1u.</p>
+          </div>
+          <button *ngIf="true" type="button" class="btn btn-danger ml-1" data-toggle="modal"
+            data-target="#exampleModalCenterCancel">
+            Cancelar
+          </button>
+        </td>
+      </tr>
+      <tr class="table-danger">
+        <th scope="row">312344</th>
+        <td *ngIf="true">444</td>
+        <td *ngIf="true">05/06/2020</td>
+        <td *ngIf="true">Av/ Tres Forques 41, puerta 27, Valencia, 46018</td>
+        <td>Cancelado</td>
+        <td> - €</td>
+        <td><button *ngIf="false" type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#exampleModalCenter">
+            Ver más
+          </button>
+          <div *ngIf="true">
+            <p>Menu B - 1u.</p>
+            <p>Menú C - 1u.</p>
+          </div>
+          <button *ngIf="true" type="button" class="btn btn-danger ml-1" data-toggle="modal"
+            data-target="#exampleModalCenterCancel">
+            Cancelar
+          </button>
+        </td>
+      </tr>
+      <tr class="table-success">
+        <th scope="row">304476</th>
+        <td *ngIf="true">422</td>
+        <td *ngIf="true">04/04/2020</td>
+        <td *ngIf="true">C/ Reina 27, puerta 2, Valencia, 46025</td>
+        <td>Entregado</td>
+        <td> 200 €</td>
+        <td><button *ngIf="false" type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#exampleModalCenter">
+            Ver más
+          </button>
+          <div *ngIf="true">
+            <p>Menu B - 2u.</p>
+          </div>
+          <button *ngIf="true" type="button" class="btn btn-danger ml-1" data-toggle="modal"
+            data-target="#exampleModalCenterCancel">
+            Cancelar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade bd-example-modal-sm" id="exampleModalCenter" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <p> <b>#Pedido</b> </p> <br>
+      <p>Fecha</p>
+      <p>Dirección de entrega</p>
+      <p>Menu x - cantidad</p>
+      <p>Estado</p>
+      <p>Precio</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenterCancel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Está seguro de que quiere cancelar este pedido?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger">Cancelar pedido</button>
+      </div>
+    </div>
+  </div>
+</div>

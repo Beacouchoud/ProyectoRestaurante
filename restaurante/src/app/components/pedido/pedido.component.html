@@ -1,0 +1,160 @@
+
+
+
+<h1 class="text-center">Pide a domicilio</h1>
+
+<form class="text-center">
+  <h5>MENÚS DISPONIBLES</h5>
+  <div class="container mb-4">
+    <div class="d-flex row col-4 mx-auto">
+      <div class="col-6">
+        <input type="checkbox" name="menu1" id="" />
+        <label for="menu1">Menu A</label>
+      </div>
+      <div class="col-6">
+        <input
+          class="w-50"
+          type="number"
+          name="cantidad1"
+          id=""
+          min="0"
+          max="10"
+          step="1"
+        />
+      </div>
+    </div>
+
+    <div class="d-flex row col-4 mx-auto">
+      <div class="col-6">
+        <input type="checkbox" name="menu1" id="" />
+        <label for="menu1">Menu B</label>
+      </div>
+      <div class="col-6">
+        <input
+          class="w-50"
+          type="number"
+          name="cantidad1"
+          id=""
+          min="0"
+          max="10"
+          step="1"
+        />
+      </div>
+    </div>
+
+    <div class="d-flex row col-4 mx-auto">
+      <div class="col-6">
+        <input type="checkbox" name="menu1" id="" />
+        <label for="menu1">Menu C</label>
+      </div>
+      <div class="col-6">
+        <input
+          class="w-50"
+          type="number"
+          name="cantidad1"
+          id=""
+          min="0"
+          max="10"
+          step="1"
+        />
+      </div>
+    </div>
+    <div class="d-flex row col-4 mx-auto border border-primary p-3">
+      <div class="col-6">
+        <h5>Total a pagar</h5>
+      </div>
+      <div class="col-6">
+        <h5>xx €</h5>
+      </div>
+    </div>
+  </div>
+
+  <h5>DATOS CLIENTE</h5>
+
+  <div class="container">
+    <div class="d-flex row col-4 mx-auto">
+      <div class="form-row mb-4">
+        <div class="col">
+          <!-- First name -->
+          <input
+            type="text"
+            id="defaultRegisterFormFirstName"
+            class="form-control"
+            placeholder="First name"
+          />
+        </div>
+        <div class="col">
+          <!-- Last name -->
+          <input
+            type="text"
+            id="defaultRegisterFormLastName"
+            class="form-control"
+            placeholder="Last name"
+          />
+        </div>
+      </div>
+
+      <!-- E-mail -->
+      <input
+        type="email"
+        id="defaultRegisterFormEmail"
+        class="form-control mb-4"
+        placeholder="E-mail"
+      />
+
+      <!-- Password -->
+      <input
+        type="date"
+        id="defaultRegisterFormPassword"
+        class="form-control mb-4"
+        placeholder="Password"
+        aria-describedby="defaultRegisterFormPasswordHelpBlock"
+      />
+
+      <!-- Phone number -->
+      <input
+        type="text"
+        id="defaultRegisterPhonePassword"
+        class="form-control mb-4"
+        placeholder="Phone number"
+        aria-describedby="defaultRegisterFormPhoneHelpBlock"
+      />
+    </div>
+  </div>
+
+  <h5>FORMA DE PAGO</h5>
+  <div class="container">
+    <div class="d-flex row col-4 mx-auto justify-content-center">
+      <!-- Default inline 1-->
+      <div class="custom-control custom-radio custom-control-inline">
+        <input
+          type="radio"
+          class="custom-control-input"
+          id="defaultInline1"
+          name="inlineDefaultRadiosExample"
+        />
+        <label class="custom-control-label" for="defaultInline1">Efectivo</label>
+      </div>
+
+      <!-- Default inline 2-->
+      <div class="custom-control custom-radio custom-control-inline">
+        <input
+          type="radio"
+          class="custom-control-input"
+          id="defaultInline2"
+          name="inlineDefaultRadiosExample"
+        />
+        <label class="custom-control-label" for="defaultInline2">Tarjeta</label>
+      </div>
+    </div>
+    <div class="d-flex row col-4 mx-auto border border-primary p-3">
+      <div class="col-12">
+        <h5>Total xx €</h5>
+        <small>IVA incluido</small>
+      </div>
+      <div class="col-12">
+        <button class="btn btn-primary my-4 btn-block" type="submit">CONFIRMAR</button>
+      </div>
+    </div>
+  </div>
+</form>

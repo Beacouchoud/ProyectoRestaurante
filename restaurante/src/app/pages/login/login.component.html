@@ -1,0 +1,32 @@
+<!-- Default form login -->
+<div class="card  col-9 col-md-8 col-lg-6 text-center my-4 mx-auto p-0 shadow-lg rounded">
+  <h5 class="card-header">Inicia sesión</h5>
+  <div class="card-body">
+    <form [formGroup]="form" class="text-center border border-light p-5" (ngSubmit)="login()">
+
+
+      <!-- Email -->
+      <input [formControlName]="'email'" type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
+
+      <!-- Password -->
+      <input [formControlName]="'password'" type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
+
+      <div class="d-flex justify-content-around">
+          <div>
+              <!-- Forgot password -->
+              <a href="">¿Has olvidado la contraseña?</a>
+          </div>
+      </div>
+
+      <!-- Sign in button -->
+      <button class="btn btn-info btn-block my-4" type="submit">Iniciar sesion</button>
+
+      <!-- Register -->
+      <p>O crea tu cuenta
+          <a  [routerLink]="['/registro']">aquí</a>
+      </p>
+
+    </form>
+    </div>
+</div>
+<!-- Default form login -->
