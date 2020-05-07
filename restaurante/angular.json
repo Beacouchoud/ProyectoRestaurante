@@ -125,6 +125,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "restaurante"
+    }
+  },
+  "defaultProject": "restaurante",
+  "cli": {
+    "analytics": "90b46a0a-3a87-4740-8de1-809756c0373e"
+  }
 }
