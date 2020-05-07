@@ -1,12 +1,14 @@
+import { EUsuNivel } from './usuario-nivel.enum';
+
 export interface IUsuario {
-  idUsuario: number;
+  id_usuario: number;
   email: string;
   password: string;
   nombre: string;
   apellido: string;
   telefono: string;
   direccion: string;
-  nivel: number;
+  nivel: EUsuNivel;
   habilitado: boolean;
-
+  sessionId?: string;
 }

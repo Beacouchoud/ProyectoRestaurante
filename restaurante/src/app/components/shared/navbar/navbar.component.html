@@ -4,18 +4,16 @@
   <nav class="my-2 my-md-0 mr-md-3">
     <a class="p-2 text-dark" href="#menus">Menús</a>
     <a class="p-2 text-dark" href="#carta">La Carta</a>
-    <a  *ngIf="false"class="p-2 text-dark" href="#contacto">Contacto</a>
-    <a class="p-2 text-dark" href="#pedidos">Pedidos</a>
-    <!-- Si estas registrado
-      <a class="p-2 text-dark" href="#">Mi cuenta</a>
-    -->
+    <a *ngIf="!isLoggedIn || isClient"class="p-2 text-dark" href="#contacto">Contacto</a>
+    <a *ngIf="isEmployee" class="p-2 text-dark" href="#pedidos">Pedidos</a>
+    <a *ngIf="isAdmin" class="p-2 text-dark" href="#usuarios">Usuarios</a>
+    <a *ngIf="isLoggedIn" class="p-2 text-dark" href="#">Mi cuenta</a>
+
   </nav>
-  <!-- Si no estás registrado -->
-  <!-- <a class="btn btn-outline-primary mx-2" [routerLink]="['login']">Iniciar sesión</a>
-  <a class="btn btn-outline-secondary" [routerLink]="['registro']">Registrarse</a> -->
-  <!-- Si estas registrado -->
-    <!-- Si eres cliente
-    <a class="btn btn-outline-primary mx-2" [routerLink]="['micuenta']">Mi cuenta</a> -->
-    <a class="btn btn-outline-danger mx-2" href="#">Cerrar sesión</a>
+    <a *ngIf="!isLoggedIn" class="btn btn-outline-primary mx-2" [routerLink]="['login']">Iniciar sesión</a>
+    <a *ngIf="!isLoggedIn" class="btn btn-outline-secondary" [routerLink]="['registro']">Registrarse</a>
+
+
+    <a *ngIf="isLoggedIn" class="btn btn-outline-danger mx-2" (click)="logout()">Cerrar sesión</a>
 
 </div>

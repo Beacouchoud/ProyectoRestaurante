@@ -55,7 +55,7 @@ export class RegistroComponent implements OnInit {
 
   handleError(error: HttpErrorResponse) {
       this.errorCode = error.error.code;
-      if (this.errorCode = 'ER_DUP_ENTRY') {
+      if (this.errorCode === 'ER_DUP_ENTRY') {
         this.msg = 'El email ya está en uso';
       } else {
         this.msg = error.error.message;

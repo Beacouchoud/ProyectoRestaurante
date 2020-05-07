@@ -1,4 +1,4 @@
-<h1 class="text-center">Menús<button *ngIf="true" class="btn btn-primary ml-2" type="button" data-toggle="collapse"
+<h1 class="text-center">Menús<button class="btn btn-primary ml-2" type="button" data-toggle="collapse"
     data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
     Crear menú
   </button></h1>
@@ -8,86 +8,34 @@
   </div>
 </div>
 <div class="d-flex flex-row flex-wrap justify-content-xs-around justify-content-md-between justify-content-lg-around">
-  <div class="card mx-auto my-4" style="width: 18rem;">
-    <img src="https://www.zerya.org/wp-content/uploads/2019/03/no-image-found.png" class="card-img-top" alt="...">
+
+<!-- *ngFor="let menu of menus; let i = index" -->
+  <div *ngFor="let menu of menus" class="card mx-auto my-4" style="width: 18rem;">
+    <img src="{{ menu.imagen }}" class="card-img-top" alt="...">
     <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-        content.</p>
+      <h5 class="card-title"> {{ menu.nombre }}</h5>
+      <p class="card-text"> {{ menu.descripcion }} </p>
     </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">Cras justo odio</li>
-      <li class="list-group-item">Dapibus ac facilisis in</li>
-      <li class="list-group-item">Vestibulum at eros</li>
+      <li *ngFor="let plato of menu.platos" class="list-group-item"> {{ plato.nombre_plato }} </li>
     </ul>
     <div class="card-body col-12">
-      <div class="row">
+      <div *ngIf="isAdmin" class="row">
         <div class="col-6">
-          <button *ngIf="true" class="btn btn-secondary " type="button" data-toggle="collapse"
+          <button class="btn btn-secondary " type="button" data-toggle="collapse"
             data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
             Editar menú
           </button>
         </div>
         <div class="custom-control custom-switch col-6 my-auto">
-          <input type="checkbox" class="custom-control-input" id="switch1" checked>
+          <input type="checkbox" class="custom-control-input" id="switch1" checked="{{menu.habilitado}}">
           <label class="custom-control-label" for="switch1">Habilitado</label>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="card mx-auto my-4" style="width: 18rem;">
-    <img src="https://www.zerya.org/wp-content/uploads/2019/03/no-image-found.png" class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-        content.</p>
-    </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Cras justo odio</li>
-      <li class="list-group-item">Dapibus ac facilisis in</li>
-      <li class="list-group-item">Vestibulum at eros</li>
-    </ul>
-    <div class="card-body col-12">
-      <div class="row">
-        <div class="col-6">
-          <button *ngIf="true" class="btn btn-secondary " type="button" data-toggle="collapse"
-            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            Editar menú
-          </button>
-        </div>
-        <div class="custom-control custom-switch col-6 my-auto">
-          <input type="checkbox" class="custom-control-input" id="switch2" checked>
-          <label class="custom-control-label" for="switch2">Habilitado</label>
-        </div>
+      <div *ngIf="!isAdmin" class="row">
+        <h5 class="mx-auto">{{ menu.precio }} €</h5>
       </div>
     </div>
   </div>
 
-  <div class="card mx-auto my-4" style="width: 18rem;">
-    <img src="https://www.zerya.org/wp-content/uploads/2019/03/no-image-found.png" class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-        content.</p>
-    </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Cras justo odio</li>
-      <li class="list-group-item">Dapibus ac facilisis in</li>
-      <li class="list-group-item">Vestibulum at eros</li>
-    </ul>
-    <div class="card-body col-12">
-      <div class="row">
-        <div class="col-6">
-          <button *ngIf="true" class="btn btn-secondary " type="button" data-toggle="collapse"
-            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            Editar menú
-          </button>
-        </div>
-        <div class="custom-control custom-switch col-6 my-auto">
-          <input type="checkbox" class="custom-control-input" id="switch3" checked>
-          <label class="custom-control-label" for="switch3">Habilitado</label>
-        </div>
-      </div>
-    </div>
-  </div>
+</div>

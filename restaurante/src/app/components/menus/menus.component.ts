@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {IOption} from 'ng-select';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { Utils } from '../shared/utils';
+import { MenuService } from 'src/app/services/menu.service';
+import { IMenu } from 'src/app/models/menu.model';
+import { from } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-menus',
@@ -8,29 +12,41 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styles: [
   ]
 })
-export class MenusComponent implements OnInit {
-  public form: FormGroup;
+export class MenusComponent extends Utils implements OnInit {
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private usuSrv: UsuarioService, private mnSrv: MenuService) {
+    super(usuSrv);
+    this.menu = new Array<IMenu>();
+  }
 
-  myOptions: Array<IOption> = [
-    {label: 'Belgium', value: 'BE'},
-    {label: 'Luxembourg', value: 'LU'},
-    {label: 'Netherlands', value: 'NL'}
-];
-selectedOptions: Array<IOption> = [
-    {label: 'Belgium', value: 'BE'},
-    {label: 'Luxembourg', value: 'LU'}
-];
+  public get menus(): Array<IMenu> {
+    if (this.isAdmin) {
+      console.log('MENUS ', JSON.parse(JSON.stringify(this.menu)));
+      return this.menu;
+    } else {
+      console.log('MENUS HABILITADOS', this.menu.filter((element) => element.habilitado === 1));
+      return this.menu.filter((element) => element.habilitado === 1);
+    }
+  }
+
+
+
+  private menu;
 
   ngOnInit(): void {
-    this.initForm();
+    this.listaMenus();
   }
 
-  private initForm(): void {
-    this.form = this.fb.group({
-      plato1: [[ 'BE' ], [Validators.required]]
-    });
-  }
+  private listaMenus(): void {
+  this.mnSrv.getMenusList()
+    .subscribe(
+      (menus) => this.menu = menus,
+      (error) => console.log(error)
+    );
+}
+
+private ordenaMenus(): void {
+  this.menu.map(idMenu => this.menu.find((menu: IMenu) => menu.platos.push()).precio).forEach(precio => precioTotal += precio);
+}
 
 }

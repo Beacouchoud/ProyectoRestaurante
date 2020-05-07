@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Utils } from '../shared/utils';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-jumbotron',
@@ -6,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styles: [
   ]
 })
-export class JumbotronComponent implements OnInit {
+export class JumbotronComponent extends Utils implements OnInit {
 
-  constructor() { }
+  constructor(private usuSrv: UsuarioService) {
+    super(usuSrv);
+  }
 
   ngOnInit(): void {
   }

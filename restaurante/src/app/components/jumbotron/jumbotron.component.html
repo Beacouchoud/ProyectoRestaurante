@@ -6,10 +6,8 @@
         <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
       </div>
       <div class="col-md-4">
-        <!-- Si no estas logueado -->
-        <!-- <a class="btn btn-outline-primary mx-2" [routerLink]="['/login']">Pedir ahora</a> -->
-        <!-- Si estas logueado -->
-        <a class="btn btn-primary btn-lg" href="#" role="button" href="#pedido">Pedir ahora</a>
+        <a *ngIf="!isLoggedIn" class="btn btn-outline-primary mx-2" [routerLink]="['/login']">Pedir ahora</a>
+        <a *ngIf="isClient" class="btn btn-primary btn-lg" href="#" role="button" href="#pedido">Pedir ahora</a>
       </div>
     </div>
 

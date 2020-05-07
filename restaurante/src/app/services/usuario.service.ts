@@ -3,21 +3,46 @@ import { environment } from 'src/environments/environment';
 import { IUsuario } from '../models/usuario.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { map, catchError } from 'rxjs/operators';
+import { EUsuNivel } from '../models/usuario-nivel.enum';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
 
+  private loggedUser: IUsuario;
+  // private user: IUsuario;
+
   constructor(protected http: HttpClient) {
+    this.getActiveUser().subscribe((loggedUser: IUsuario) => this.loggedUser = loggedUser);
   }
 
-  getUsuario(id: number): IUsuario {
-    return null;
+  getLoggedUser(): IUsuario {
+    return this.loggedUser;
   }
+
+  // getUserSelected(id: string): IUsuario {
+  //   this.getUsuario(id);
+  //   return this.user;
+  // }
+
+  getUserLevel(): EUsuNivel{
+    return this.loggedUser ? this.loggedUser.nivel : 0 ;
+  }
+
+  // getUsuario(id: string): Observable<any> {
+  //   return this.http.post(environment.URL_API + '/getUser', id).pipe(
+  //     map((user: IUsuario) => this.user = user)
+  //   );
+  // }
 
   createUsuario(usuario: IUsuario): Observable<any> {
     return this.http.post(environment.URL_API + '/register', usuario);
+  }
+
+  listaUsuarios(): Observable<any> {
+    return this.http.get(environment.URL_API + '/usersList');
   }
 
   updateUsuario(id: string, value: any) {
@@ -25,6 +50,29 @@ export class UsuarioService {
   }
 
   login(user: any): Observable<any> {
-    return this.http.post<any>(environment.URL_API + '/login', user);
+    return this.http.post(environment.URL_API + '/login', user).pipe(
+      map((loggedUser: IUsuario) => {
+        sessionStorage.setItem('token', loggedUser.sessionId);
+        return this.loggedUser = loggedUser;
+      })
+    );
   }
+
+  logout(): Observable<any> {
+    return this.http.get(environment.URL_API + '/logout',{
+      withCredentials: true}).pipe(map(res => {
+        this.loggedUser = null;
+        sessionStorage.removeItem('token');
+        return res;
+      }));
+  }
+
+  getActiveUser(): Observable<any> {
+    if (sessionStorage.getItem('token')) {
+      return this.http.post(environment.URL_API + '/activeUser', {token: sessionStorage.getItem('token')});
+    } else {
+       return this.logout();
+    }
+  }
+
 }

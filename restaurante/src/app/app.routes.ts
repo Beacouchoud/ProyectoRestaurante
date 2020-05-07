@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'registro', component: RegistroComponent },
   { path: 'login'   , component: LoginComponent },
   { path: 'micuenta/:id', component: MicuentaComponent},
-  { path: '**', pathMatch: 'full', redirectTo: 'registro' }
+  { path: '**', pathMatch: 'full', redirectTo: 'home' }
 ];
 
 export const APP_ROUTING = RouterModule.forRoot(routes);

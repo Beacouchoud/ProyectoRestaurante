@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { Utils } from 'src/app/components/shared/utils';
 
 @Component({
   selector: 'app-home',
@@ -6,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styles: [
   ]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent extends Utils implements OnInit {
 
-  constructor() { }
+  constructor(private usuSrv: UsuarioService) {
+    super(usuSrv);
+  }
 
   ngOnInit(): void {
   }

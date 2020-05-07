@@ -22,8 +22,9 @@ import { FormsModule } from '@angular/forms';
 import { MenuformComponent } from './components/menuform/menuform.component';
 import { PlatoformComponent } from './components/platoform/platoform.component';
 import { UsuarioService } from './services/usuario.service';
-import { HttpClientModule } from '@angular/common/http';
-import { AuthService } from './services/auth.service';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { AuthService } from './services/auth.service';
     MicuentaComponent,
     PedidosComponent,
     MenuformComponent,
-    PlatoformComponent
+    PlatoformComponent,
+    UsuariosComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,13 @@ import { AuthService } from './services/auth.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [UsuarioService, AuthService],
+  providers: [
+    UsuarioService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
