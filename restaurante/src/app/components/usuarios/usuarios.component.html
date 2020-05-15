@@ -1,5 +1,6 @@
 <h1 *ngIf="true" class="my-4 text-center">Usuarios</h1>
-<table class="table table-hover">
+<div class="row table-responsive m-0">
+<table class="col-10 mx-auto table table-striped table-hover">
   <thead>
     <tr>
       <th scope="col">#Usuario</th>
@@ -13,8 +14,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let usuario of usuarios; let i=index">
-      <th scope="row">{{usuario.id_usuario}}</th>
+    <tr *ngFor="let usuario of usuarios | slice: (activePage - 1) * itemsPerPage:(activePage - 1) * itemsPerPage + itemsPerPage;  let i=index;">
+      <th> {{usuario.id_usuario}} </th>
       <td> {{usuario.nombre}} </td>
       <td> {{usuario.apellido}} </td>
       <td> {{usuario.email}} </td>
@@ -29,12 +30,19 @@
             Editar
           </button>
         </div>
-        <div class="custom-control custom-switch col-6 my-auto">
-          <input type="checkbox" class="custom-control-input" id="switch1" checked>
-          <label class="custom-control-label" for="switch1">Habilitado</label>
+        <div class="custom-control custom-switch col-xs-12 col-xl-6 my-auto">
+          <input type="checkbox" class="custom-control-input" id="{{'user'+i}}" checked>
+          <label class="custom-control-label" for="{{'user'+i}}">Habilitado</label>
         </div>
       </div>
     </td>
     </tr>
   </tbody>
 </table>
+</div>
+<ngb-pagination class="d-flex justify-content-center"
+*ngIf="showPagination"
+[pageSize]="itemsPerPage"
+[collectionSize]="totalItems"
+[(page)]="activePage"
+></ngb-pagination>

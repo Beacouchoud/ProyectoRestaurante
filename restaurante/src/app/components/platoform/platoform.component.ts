@@ -16,7 +16,6 @@ export class PlatoformComponent implements OnInit {
   public msg: string;
   public error: boolean = null;
   tiposPlato: Array<IOption> = [
-    {label: 'Selecciona tipo' , value: ''},
     {label: ETipoPlato.ENTRANTE , value: ETipoPlato.ENTRANTE},
     {label: ETipoPlato.ARROZ, value: ETipoPlato.ARROZ},
     {label: ETipoPlato.CARNE, value: ETipoPlato.CARNE},
@@ -34,11 +33,11 @@ export class PlatoformComponent implements OnInit {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      nombre: [[ null ], [Validators.required]],
-      tipo: [[ '' ], [Validators.required]],
-      precio: [[ null ], [Validators.required]],
-      descripcion: [[ null ], []],
-      habilitado: [[true], [Validators.required]]
+      nombre: [ null , [Validators.required]],
+      tipo: [ null , [Validators.required]],
+      precio: [ null , [Validators.required]],
+      descripcion: [ null , []],
+      habilitado: [true, [Validators.required]]
     });
   }
 

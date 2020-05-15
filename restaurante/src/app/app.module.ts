@@ -25,6 +25,7 @@ import { UsuarioService } from './services/usuario.service';
 import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
     ReactiveFormsModule,
     NgSelectModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [
     UsuarioService,

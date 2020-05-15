@@ -1,9 +1,14 @@
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { EUsuNivel } from 'src/app/models/usuario-nivel.enum';
+import { IUsuario } from 'src/app/models/usuario.model';
 
 export class Utils {
   constructor(private userSrv: UsuarioService) {
 
+  }
+
+  public get userLogged(): IUsuario {
+    return this.userSrv.getLoggedUser();
   }
 
   public get userLevel(): EUsuNivel {

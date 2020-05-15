@@ -1,11 +1,11 @@
 import { IPlato } from './plato.model';
 
 export interface IMenu {
-  idMenu: number;
-  nombre: string;
+  id_menu: number;
+  nombre_menu: string;
   descripcion: string;
   imagen: string;
   platos: Array<any>;
   precio: number;
-  habilitado: boolean;
+  habilitado: number;
 }

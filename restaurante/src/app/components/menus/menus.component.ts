@@ -3,8 +3,6 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { Utils } from '../shared/utils';
 import { MenuService } from 'src/app/services/menu.service';
 import { IMenu } from 'src/app/models/menu.model';
-import { from } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-menus',
@@ -21,15 +19,11 @@ export class MenusComponent extends Utils implements OnInit {
 
   public get menus(): Array<IMenu> {
     if (this.isAdmin) {
-      console.log('MENUS ', JSON.parse(JSON.stringify(this.menu)));
       return this.menu;
     } else {
-      console.log('MENUS HABILITADOS', this.menu.filter((element) => element.habilitado === 1));
-      return this.menu.filter((element) => element.habilitado === 1);
+      return this.menu.filter((element) => element.habilitado == 1);
     }
   }
-
-
 
   private menu;
 
@@ -40,13 +34,19 @@ export class MenusComponent extends Utils implements OnInit {
   private listaMenus(): void {
   this.mnSrv.getMenusList()
     .subscribe(
-      (menus) => this.menu = menus,
+      (menus) => {this.menu = menus; this.platosDelMenu();},
       (error) => console.log(error)
     );
-}
+  }
 
-private ordenaMenus(): void {
-  this.menu.map(idMenu => this.menu.find((menu: IMenu) => menu.platos.push()).precio).forEach(precio => precioTotal += precio);
-}
+  private platosDelMenu(): void {
+    this.menu.forEach(element => {
+      this.mnSrv.getPlatosFromMenu(element.id_menu.toString())
+      .subscribe(
+        (platos) => element.platos = platos,
+        (error) => console.log(error)
+      );
+    });
 
+  }
 }

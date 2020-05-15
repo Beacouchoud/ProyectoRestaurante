@@ -13,7 +13,12 @@ function createRouter(dbConnection) {
   router.post('/createPlato', createPlato);
   router.get('/getPlatos', getPlatos);
   router.post('/createMenu', createMenu, deletePlatosMenu, addPlatosMenu);
-  router.get('/getMenusList', getMenusList); //, getPlatosMenu
+  router.get('/getMenusList', getMenusList); 
+  router.get('/getPlatosFromMenu', getPlatosFromMenu);
+  router.post('/createPedido', createPedido, addDetalle);
+  router.get('/getPedidosList', getPedidosList);
+  router.get('/getDetalleFromPedido', getDetalleFromPedido);
+  router.post('/updateEstado', updateEstado);
   return router;
 }
 module.exports = createRouter;
@@ -239,7 +244,7 @@ const addPlatosMenu = (info, req, res, next) => {
 
 const getMenusList = (req, res, next) => { 
   db.query(
-    'Select menu.* , plato.* from menu inner join (platos_menu inner join plato on plato.id_plato = platos_menu.id_plato) on menu.id_menu = platos_menu.id_menu order by menu.id_menu',
+    'SELECT * FROM menu',
     [],
     (error, result) => {
       if (error) {
@@ -255,23 +260,113 @@ const getMenusList = (req, res, next) => {
   );
 };
 
-// const getPlatosMenu  = (data, req, res, next) => { 
-//   let menus = new Array();  
-//   for (const index in data) { 
-//     db.query(
-//       'SELECT * FROM platos_menu WHERE id_menu = ?',
-//       [data[index].id_menu],
-//       (error, result) => {
-//         if (error) {
-//           console.error('Error recuperando los platos', error);
-//           res.status(500).json({code: error.code, message: error.sqlMessage});
-//         } else {
-//           let platos = JSON.parse(JSON.stringify(result));
-//           menus.push( {menu: data[index], platos: platos} );
-//           console.log('PLATOS ', JSON.parse(JSON.stringify(result)));
-//           console.log('MENUS COMPLETOS', JSON.parse(JSON.stringify(menus)));
-//         }
-//       }
-//     );
-//   }
-// };
+const getPlatosFromMenu = (req, res, next) => { 
+  db.query('select * from plato where id_plato in (select id_plato from platos_menu where platos_menu.id_menu = ?)',
+    [req.query.idMenu],
+    (error, result) => {
+      if (error) {
+       // console.error(error);
+        res.status(500).json({code: error.code, message: error.sqlMessage});
+      } else {
+       // console.log(JSON.stringify(result));
+        let data = JSON.parse(JSON.stringify(result));
+        console.log('Listado de platos del menu -> ', data);
+        res.status(200).json(result);
+      }
+    }
+  );
+};
+
+const createPedido = (req, res, next) => {
+  db.query('INSERT INTO pedido (id_cliente, fecha, direccion, telefono, email, forma_pago, estado, precio_total) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    [req.body.usuario.id_usuario, req.body.pedido.fecha, req.body.pedido.direccion, req.body.pedido.telefono, req.body.pedido.email, req.body.pedido.pago, 'PENDIENTE', 50],
+    (error, result) => {
+      if (error) {
+        res.status(500).json({code: error.code, message: error.sqlMessage});
+      } else {
+        console.log('REQ.BODY CREATE PEDIDO', JSON.parse(JSON.stringify(req.body)));
+        console.log('RESULT CREATE PEDIDO', JSON.parse(JSON.stringify(result)));
+        let info = {
+          id_pedido: JSON.parse(JSON.stringify(result)).insertId,
+          detalle: JSON.parse(JSON.stringify(req.body.detalle))
+        };
+        next(info);
+      }
+    }
+  );
+}
+
+const addDetalle = (data, req, res, next) => {
+  let info = [];
+  for (const index in data.detalle) {
+    if (data.detalle[index].menu == true ) {
+      info.push(new Array(data.id_pedido, data.detalle[index].id, data.detalle[index].nombre_menu, data.detalle[index].cantidad));
+    }
+  }
+  console.log('ADD DETALLE', info);
+  db.query('INSERT INTO detalle_pedido (id_pedido, id_menu, nombre_menu, cantidad) VALUES ?',
+    [info],
+    (error, result) => {
+      if (error) {
+        res.status(500).json({code: error.code, message: error.sqlMessage});
+      } else {
+        console.log('REQ.BODY ADD DETALLE', JSON.parse(JSON.stringify(req.body)));
+        console.log('data ', data);
+        res.status(200).json(result);
+      }
+    }
+  );
+};
+
+const getPedidosList = (req, res, next) => {
+  db.query(
+    'SELECT * FROM pedido',
+    [],
+    (error, result) => {
+      if (error) {
+       // console.error(error);
+        res.status(500).json({code: error.code, message: error.sqlMessage});
+      } else {
+       // console.log(JSON.stringify(result));
+        let data = JSON.parse(JSON.stringify(result));
+        console.log('Listado de pedidos -> ', data);
+        res.status(200).json(result);
+      }
+    }
+  );
+};
+
+const getDetalleFromPedido = (req, res, next) => {
+  db.query(
+    'select * from detalle_pedido where id_pedido in (select id_pedido from detalle_pedido where detalle_pedido.id_pedido = ?)',
+    [req.query.idPedido],
+    (error, result) => {
+      if (error) {
+      // console.error(error);
+        res.status(500).json({code: error.code, message: error.sqlMessage});
+      } else {
+      // console.log(JSON.stringify(result));
+        let data = JSON.parse(JSON.stringify(result));
+        console.log('Detalles del pedido -> ', data);
+        res.status(200).json(result);
+      }
+    }
+  );
+};
+
+const updateEstado = (req, res, next) => {
+  console.log(req.body);
+  db.query(
+    'UPDATE pedido SET estado = (?) WHERE id_pedido = (?)',
+    [req.body.estado, req.body.idPedido],
+    (error, result) => {
+      if (error) {
+        res.status(500).json({code: error.code, message: error.sqlMessage});
+      } else {
+        let data = JSON.parse(JSON.stringify(result));
+        console.log('Cambio de estado -> ', data);
+        res.status(200).json(req.body.estado);
+      }
+    }
+  );
+}

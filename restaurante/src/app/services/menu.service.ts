@@ -27,9 +27,16 @@ export class MenuService {
   }
 
   getMenusList(): Observable<any> {
-    return this.http.get(environment.URL_API + '/getMenusList');
+    return this.http.get(environment.URL_API + '/getMenusList').pipe(
+      map(menus => menus as Array<IMenu>)
+    );
   }
 
+  getPlatosFromMenu(id: string): Observable<any> {
+    return this.http.get(environment.URL_API + '/getPlatosFromMenu', {params: {'idMenu': id } } ).pipe(
+      map(platos => platos as Array<IPlato>)
+    );
+  }
 
 
 }

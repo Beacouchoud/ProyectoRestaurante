@@ -18,7 +18,7 @@
         <input type="text" [formControlName]="'nombre'" placeholder="Nombre del plato" class="form-control">
       </div>
 
-      <div class="col-md-5 mb-2">
+      <div class="col-md-5 mb-2" *ngIf="tiposPlato">
         <ng-select [items]="tiposPlato" [placeholder]="'Seleccione tipo'" [bindLabel]="'label'" [bindValue]="'value'"
            [formControlName]="'tipo'">
         </ng-select>
