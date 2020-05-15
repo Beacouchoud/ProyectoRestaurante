@@ -26,6 +26,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ModalcancelComponent } from './components/shared/modalcancel/modalcancel.component';
+import { ModalinfoComponent } from './components/shared/modalinfo/modalinfo.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     PedidosComponent,
     MenuformComponent,
     PlatoformComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    ModalinfoComponent,
+    ModalcancelComponent
   ],
   imports: [
     BrowserModule,

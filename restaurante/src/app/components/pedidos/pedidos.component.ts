@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { IPedido } from 'src/app/models/pedido.model';
 import { PedidoService } from 'src/app/services/pedido.service';
-import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPaginationConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MenuService } from 'src/app/services/menu.service';
 import { EEstado } from 'src/app/models/estado-pedido.enum';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { IOption } from 'ng-select';
+import { ModalinfoComponent } from '../shared/modalinfo/modalinfo.component';
 
 @Component({
   selector: 'app-pedidos',
@@ -29,7 +30,8 @@ export class PedidosComponent implements OnInit {
   constructor(
     private pdSrv: PedidoService,
     private mnSrv: MenuService,
-    private config: NgbPaginationConfig
+    private config: NgbPaginationConfig,
+    private modalService: NgbModal
   ) {
     this.pedidos = new Array<IPedido>();
     this.config.boundaryLinks = true;
@@ -87,6 +89,11 @@ export class PedidosComponent implements OnInit {
     this.pdSrv
       .cambiaEstado(pedido.id_pedido, EEstado.CANCELADO)
       .subscribe((res) => pedido.estado = res );
+  }
+
+  openVerticallyCentered(pedido: IPedido) {
+    const modal = this.modalService.open(ModalinfoComponent, { centered: true });
+    modal.componentInstance.pedido = pedido;
   }
 
 }

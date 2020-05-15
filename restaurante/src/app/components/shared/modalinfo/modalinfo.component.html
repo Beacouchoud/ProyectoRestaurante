@@ -1,0 +1,23 @@
+
+  <div class="modal-header" [ngClass]="{
+    'table-warning': pedido.estado === enumEstados.PENDIENTE,
+    'table-info': pedido.estado === enumEstados.ACEPTADO,
+    'table-success': pedido.estado === enumEstados.ENTREGADO,
+    'table-danger': pedido.estado === enumEstados.CANCELADO
+    }">
+    <h4 class="modal-title">{{'Nº pedido: '+pedido.id_pedido}}</h4>
+
+  </div>
+  <div class="modal-body">
+    <p> <b> Fecha </b> <br>{{pedido.fecha |date}}</p>
+    <p> <b> Dirección de entrega </b> <br> {{pedido.direccion}}</p>
+    <p> <b> Detalles del pedido </b> </p>
+    <p *ngFor="let detalle of pedido.detalle_pedido"> {{detalle.nombre_menu}} - {{detalle.cantidad}}ud. </p>
+    <p> <b> Estado </b> </p>
+    <ng-select [disabled]="pedido.estado === enumEstados.CANCELADO" [items]="estados" [bindLabel]="'label'" [bindValue]="'value'" [(ngModel)]="pedido.estado"  (change)="onSelectChange($event, pedido)" [id]="'estado-' + pedido.id_pedido"   [multiple]="false" >
+    </ng-select> <br>
+    <p> <b>Precio: {{pedido.precio_total |currency:'EUR':'symbol'}} </b></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+  </div>

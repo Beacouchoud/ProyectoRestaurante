@@ -42,11 +42,11 @@
         <td>
           <div class="btn-group-vertical">
           <button type="button" class="btn btn-primary d-md-none rounded-bottom mb-1" data-toggle="modal"
-            data-target="#exampleModalCenter">
+            data-target="#exampleModalCenter" (click)="openVerticallyCentered(pedido)">
             Ver más
           </button>
           <button type="button" class="btn btn-danger rounded-top" data-toggle="modal"
-            [attr.data-target]="'#ModalCancel'+pedido.id_pedido">
+            [attr.data-target]="'#ModalCancel'+pedido.id_pedido" [disabled]="pedido.estado === enumEstados.CANCELADO">
             Cancelar
           </button>
         </div>
@@ -77,6 +77,8 @@
     </tbody>
   </table>
 </div>
+
+
 <ngb-pagination class="d-flex justify-content-center"
 *ngIf="showPagination"
 [pageSize]="itemsPerPage"
@@ -86,18 +88,6 @@
 
 
 
-<div class="modal fade bd-example-modal-sm" id="exampleModalCenter" tabindex="-1" role="dialog"
-  aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <p> <b>#Pedido</b> </p> <br>
-      <p>Fecha</p>
-      <p>Dirección de entrega</p>
-      <p>Menu x - cantidad</p>
-      <p>Estado</p>
-      <p>Precio</p>
-    </div>
-  </div>
-</div>
+
 
 

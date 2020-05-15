@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
 });
 connection.connect();
 const port = process.env.PORT || 8080;
-const app = express()
+const app = express({host:'0.0.0.0'})
 .use(session({ 
   secret: 'Shh, its a secret!', 
   saveUninitialized:false,
@@ -22,7 +22,7 @@ const app = express()
   cookie: { maxAge: 60000 }
 }))
   .use(cors({origin: [
-    "http://localhost:4200"
+    "http://192.168.1.249:4200"
   ], credentials: true}))
   .use(bodyParser.json())
   .use(events(connection))
