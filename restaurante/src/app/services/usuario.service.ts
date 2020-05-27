@@ -12,7 +12,6 @@ import { EUsuNivel } from '../models/usuario-nivel.enum';
 export class UsuarioService {
 
   private loggedUser: IUsuario;
-  // private user: IUsuario;
 
   constructor(protected http: HttpClient) {
     this.getActiveUser().subscribe((loggedUser: IUsuario) => this.loggedUser = loggedUser);
@@ -22,20 +21,9 @@ export class UsuarioService {
     return this.loggedUser;
   }
 
-  // getUserSelected(id: string): IUsuario {
-  //   this.getUsuario(id);
-  //   return this.user;
-  // }
-
   getUserLevel(): EUsuNivel{
     return this.loggedUser ? this.loggedUser.nivel : 0 ;
   }
-
-  // getUsuario(id: string): Observable<any> {
-  //   return this.http.post(environment.URL_API + '/getUser', id).pipe(
-  //     map((user: IUsuario) => this.user = user)
-  //   );
-  // }
 
   createUsuario(usuario: IUsuario): Observable<any> {
     return this.http.post(environment.URL_API + '/register', usuario);
@@ -45,8 +33,8 @@ export class UsuarioService {
     return this.http.get(environment.URL_API + '/usersList');
   }
 
-  updateUsuario(id: string, value: any) {
-
+  updateUsuario(id: string, usuario: IUsuario): Observable<any> {
+    return this.http.post(environment.URL_API + '/updateUsuario', {id, usuario});
   }
 
   login(user: any): Observable<any> {
@@ -71,8 +59,16 @@ export class UsuarioService {
     if (sessionStorage.getItem('token')) {
       return this.http.post(environment.URL_API + '/activeUser', {token: sessionStorage.getItem('token')});
     } else {
-       return this.logout();
+      return this.logout();
     }
+  }
+
+  enableUsuario(habilitado: number, id: string): Observable<any> {
+    return this.http.post(environment.URL_API + '/enableUser', {habilitado, id});
+  }
+
+  cambiaEstado(id: number , nivel: EUsuNivel): Observable<any> {
+    return this.http.post(environment.URL_API + '/updateNivel', {idUsuario: id, nivel});
   }
 
 }

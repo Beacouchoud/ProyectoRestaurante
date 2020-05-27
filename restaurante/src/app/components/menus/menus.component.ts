@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { Utils } from '../shared/utils';
+import { Utils } from '../../models/utils';
 import { MenuService } from 'src/app/services/menu.service';
 import { IMenu } from 'src/app/models/menu.model';
 
@@ -11,6 +11,8 @@ import { IMenu } from 'src/app/models/menu.model';
   ]
 })
 export class MenusComponent extends Utils implements OnInit {
+
+  private menu;
 
   constructor(private usuSrv: UsuarioService, private mnSrv: MenuService) {
     super(usuSrv);
@@ -24,8 +26,6 @@ export class MenusComponent extends Utils implements OnInit {
       return this.menu.filter((element) => element.habilitado == 1);
     }
   }
-
-  private menu;
 
   ngOnInit(): void {
     this.listaMenus();
@@ -47,6 +47,14 @@ export class MenusComponent extends Utils implements OnInit {
         (error) => console.log(error)
       );
     });
-
   }
-}
+
+  public habilitarMenu(menu: IMenu) {
+    let habilitado = menu.habilitado ? 0 : 1;
+    this.mnSrv.enableMenu(habilitado, menu.id_menu.toString())
+      .subscribe(
+        (res) => menu.habilitado = res,
+        (error) => console.log('error', error)
+      );
+    }
+  }

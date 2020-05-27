@@ -4,5 +4,5 @@ export interface IPlato {
   descripcion?: string;
   tipo: string;
   precio: number;
-  habilitado: boolean;
+  habilitado: number;
 }

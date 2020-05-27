@@ -37,8 +37,8 @@
                 </button>
 
                 <div class="custom-control custom-switch my-auto">
-                  <input type="checkbox" class="custom-control-input" id="{{'plato'+i}}" checked>
-                  <label class="custom-control-label" for="{{'plato'+i}}">Habilitado</label>
+                  <input type="checkbox" class="custom-control-input" [id]="'plato'+i" [checked]="plato.habilitado" (change)="habilitarPlato(plato)">
+                  <label class="custom-control-label" [for]="'plato'+i">Habilitado</label>
                 </div>
               </div>
             </div>

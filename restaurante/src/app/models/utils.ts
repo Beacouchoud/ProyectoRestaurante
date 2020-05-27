@@ -20,7 +20,7 @@ export class Utils {
   }
 
   public get isAdmin(): boolean {
-    return this.userSrv.getUserLevel() === EUsuNivel.ADMIN;
+    return this.userSrv.getUserLevel() === EUsuNivel.ADMINISTRADOR;
   }
 
   public get isEmployee(): boolean {

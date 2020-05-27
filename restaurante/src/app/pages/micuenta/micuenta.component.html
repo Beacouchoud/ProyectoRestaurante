@@ -1,46 +1,61 @@
 <div class="container-fluid">
-  <div class="row d-flex justify-content-around">
+  <div *ngIf="form" class="row d-flex justify-content-around">
 
     <div class="card col-9 col-md-8 col-lg-5 text-center my-4 mx-auto p-0 shadow-lg rounded">
-      <h5 class="card-header">Mis datos</h5>
+      <h5 class="card-header">Mis datos <small> #{{userLogged.id_usuario}} </small> </h5>
       <div class="card-body">
-        <form class="text-center border border-light p-5" action="#!">
+        <form class="text-center border border-light p-5" [formGroup]="form" (ngSubmit)="modificarDatos()" >
           <div class="form-row mb-4">
             <div class="col">
               <!-- First name -->
-              <input type="text" id="defaultRegisterFormFirstName" class="form-control" placeholder="First name" />
+              <input type="text" [formControlName]="'nombre'" class="form-control" placeholder="First name" />
             </div>
             <div class="col">
               <!-- Last name -->
-              <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name" />
+              <input type="text" [formControlName]="'apellido'" class="form-control" placeholder="Last name" />
             </div>
           </div>
 
           <!-- E-mail -->
-          <input type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail" />
+          <input type="email" [formControlName]="'email'" class="form-control mb-4" placeholder="E-mail" />
 
           <!-- Phone number -->
-          <input type="text" id="defaultRegisterPhonePassword" class="form-control mb-4" placeholder="Phone number"
-            aria-describedby="defaultRegisterFormPhoneHelpBlock" />
+          <input type="text" [formControlName]="'telefono'" class="form-control mb-4" placeholder="Phone number"/>
 
-          <!-- Password -->
-          <input type="password" id="defaultRegisterFormPassword" class="form-control mb-2"
-            placeholder="Actual password" aria-describedby="defaultRegisterFormPasswordHelpBlock" />
+          <!-- Adress -->
+          <input type="text" [formControlName]="'direccion'" class="form-control mb-4" placeholder="Phone number"/>
 
-          <input type="password" id="defaultRegisterFormPassword" class="form-control" placeholder="New password"
-            aria-describedby="defaultRegisterFormPasswordHelpBlock" />
-          <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
-            At least 8 characters and 1 digit
-          </small>
-
-          <!-- Sign up button -->
-          <button class="btn btn-info my-4 btn-block" type="submit">
+          <button class="btn btn-info my-4 btn-block" [disabled]="form.invalid" type="submit">
             Guardar cambios
           </button>
         </form>
       </div>
     </div>
+
+
     <div class="card col-9 col-md-8 col-lg-5 text-center my-4 mx-auto p-0 shadow-lg rounded">
+      <h5 class="card-header">Seguridad </h5>
+      <div class="card-body">
+        <form class="text-center border border-light p-5" [formGroup]="formPwd" (ngSubmit)="modificarPassword()" >
+          <!-- Password -->
+          <input type="password" [formControlName]="'password'" class="form-control mb-2"
+            placeholder="Contraseña actual" />
+          <small class="form-text text-muted mb-4">
+            La contraseña debe tener al menos 8 caracteres
+          </small>
+          <input type="password" [formControlName]="'newPassword1'" class="form-control mb-4" placeholder="Nueva contraseña"/>
+
+          <input type="password" [formControlName]="'newPassword2'" class="form-control mb-4" placeholder="Repita la contraseña"/>
+
+          <button class="btn btn-info my-4 btn-block" [disabled]="form.invalid" type="submit">
+            Modificar contraseña
+          </button>
+        </form>
+      </div>
+    </div>
+
+
+    <div *ngIf="isClient" class="card col-9 col-md-8 col-lg-11 text-center my-4 mx-auto p-0 shadow-lg rounded">
       <h5 class="card-header">Mis pedidos</h5>
       <div class="card-body">
         <app-pedidos></app-pedidos>

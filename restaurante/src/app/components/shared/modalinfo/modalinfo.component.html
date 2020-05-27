@@ -1,4 +1,5 @@
 
+<div *ngIf="tipo === 'infoPedido'">
   <div class="modal-header" [ngClass]="{
     'table-warning': pedido.estado === enumEstados.PENDIENTE,
     'table-info': pedido.estado === enumEstados.ACEPTADO,
@@ -14,10 +15,51 @@
     <p> <b> Detalles del pedido </b> </p>
     <p *ngFor="let detalle of pedido.detalle_pedido"> {{detalle.nombre_menu}} - {{detalle.cantidad}}ud. </p>
     <p> <b> Estado </b> </p>
-    <ng-select [disabled]="pedido.estado === enumEstados.CANCELADO" [items]="estados" [bindLabel]="'label'" [bindValue]="'value'" [(ngModel)]="pedido.estado"  (change)="onSelectChange($event, pedido)" [id]="'estado-' + pedido.id_pedido"   [multiple]="false" >
+    <ng-select [disabled]="pedido.estado === enumEstados.CANCELADO" [items]="estados" [bindLabel]="'label'" [bindValue]="'value'" [(ngModel)]="pedido.estado"  (change)="onSelectPedidoChange($event, pedido)" [id]="'estado-' + pedido.id_pedido"   [multiple]="false" >
     </ng-select> <br>
     <p> <b>Precio: {{pedido.precio_total |currency:'EUR':'symbol'}} </b></p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+  </div>
+</div>
+
+<div *ngIf="tipo === 'infoUsuario'">
+  <div class="modal-header">
+    <h4 class="modal-title">{{'ID Usuario: '+usuario.id_usuario}}</h4>
+
+  </div>
+  <div class="modal-body">
+    <p> <b> Nombre </b> <br>{{usuario.nombre}}</p>
+    <p> <b> Apellido </b> <br> {{usuario.apellido}}</p>
+    <p> <b> Email </b> <br> {{usuario.email}}</p>
+    <p> <b> Teléfono de contacto </b> <br> {{usuario.telefono}}</p>
+    <p> <b> Dirección </b> <br> {{usuario.direccion}}</p>
+    <p> <b> Nivel </b> </p>
+    <div class="form-group" *ngIf="!!niveles">
+      <ng-select [disabled]="!usuario.habilitado" [items]="niveles" [bindLabel]="'label'" [bindValue]="'value'" [(ngModel)]="usuario.nivel" (change)="onSelectUserChange($event, usuario)" [id]="'user-' + usuario.id_usuario" [multiple]="false" >
+      </ng-select>
+    </div><br>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+  </div>
+</div>
+
+<div *ngIf="tipo === 'cancelPedido'">
+  <div class="modal-header" [ngClass]="{
+    'table-warning': pedido.estado === enumEstados.PENDIENTE,
+    'table-info': pedido.estado === enumEstados.ACEPTADO,
+    'table-success': pedido.estado === enumEstados.ENTREGADO,
+    'table-danger': pedido.estado === enumEstados.CANCELADO
+    }">
+    <h4 class="modal-title">{{'Nº pedido: '+pedido.id_pedido}}</h4>
+  </div>
+    <div class="modal-body">
+      ¿Está seguro de que quiere cancelar este pedido?
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cerrar</button>
+      <button type="button" class="btn btn-danger" data-dismiss="modal" (click)='onCancelPedido(pedido)'>Cancelar pedido</button>
+    </div>
   </div>

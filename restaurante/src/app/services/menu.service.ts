@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { IPlato } from '../models/plato.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map, groupBy } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { IMenu } from '../models/menu.model';
 
 @Injectable({
@@ -17,13 +17,15 @@ export class MenuService {
     return this.http.post(environment.URL_API + '/createMenu', menu);
   }
 
-  editMenu(keys: Array<any>, values: Array<any>) {
+  editMenu(keys: Array<any>, values: Array<any>) { //TO-DO
+  }
 
+  enableMenu(habilitado: number, id: string): Observable<any> {
+    return this.http.post(environment.URL_API + '/enableMenu', {habilitado, id});
   }
 
   getMenu(id: string): Observable<any>{
     return this.http.post(environment.URL_API + '/getMenu', id);
-
   }
 
   getMenusList(): Observable<any> {
@@ -37,6 +39,4 @@ export class MenuService {
       map(platos => platos as Array<IPlato>)
     );
   }
-
-
 }

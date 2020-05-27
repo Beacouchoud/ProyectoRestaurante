@@ -9,9 +9,8 @@
   </div>
 </div>
 <div class="d-flex flex-row flex-wrap justify-content-xs-around justify-content-md-between justify-content-lg-around">
-
   <div *ngFor="let menu of menus; let i = index;" class="card mx-auto my-4" style="width: 18rem;">
-    <img src="{{ menu.imagen }}" class="card-img-top" alt="...">
+    <img [src]="menu.imagen" class="card-img-top" alt="...">
     <div class="card-body">
       <h5 class="card-title"> {{ menu.nombre_menu }}</h5>
       <p class="card-text"> {{ menu.descripcion }} </p>
@@ -28,8 +27,8 @@
           </button>
         </div>
         <div class="custom-control custom-switch col-6 my-auto">
-          <input type="checkbox" class="custom-control-input" id="{{'menu'+i}}" checked="{{menu.habilitado}}">
-          <label class="custom-control-label" for="{{'menu'+i}}">Habilitado</label>
+          <input type="checkbox" class="custom-control-input" [id]="'menu'+i" [checked]="menu.habilitado" (change)="habilitarMenu(menu)">
+          <label class="custom-control-label" [for]="'menu'+i">Habilitado</label>
         </div>
       </div>
       <div *ngIf="!isAdmin" class="row">
@@ -37,5 +36,4 @@
       </div>
     </div>
   </div>
-
 </div>

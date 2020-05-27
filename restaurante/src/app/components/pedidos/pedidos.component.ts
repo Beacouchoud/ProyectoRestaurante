@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { IPedido } from 'src/app/models/pedido.model';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { NgbPaginationConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { MenuService } from 'src/app/services/menu.service';
 import { EEstado } from 'src/app/models/estado-pedido.enum';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { IOption } from 'ng-select';
 import { ModalinfoComponent } from '../shared/modalinfo/modalinfo.component';
+import { Utils } from 'src/app/models/utils';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-pedidos',
   templateUrl: './pedidos.component.html',
   styles: [],
 })
-export class PedidosComponent implements OnInit {
+export class PedidosComponent extends Utils implements OnInit {
   private pedidos: Array<IPedido>;
   public totalItems: number;
   public activePage = 1;
@@ -27,23 +27,22 @@ export class PedidosComponent implements OnInit {
     { label: EEstado.ACEPTADO, value: EEstado.ACEPTADO },
   ];
 
-  constructor(
-    private pdSrv: PedidoService,
-    private mnSrv: MenuService,
-    private config: NgbPaginationConfig,
-    private modalService: NgbModal
-  ) {
+  constructor( private pdSrv: PedidoService, private usuSrv: UsuarioService, private config: NgbPaginationConfig, private modalService: NgbModal) {
+    super(usuSrv);
     this.pedidos = new Array<IPedido>();
     this.config.boundaryLinks = true;
   }
 
   public get pedidosLista(): Array<IPedido> {
-    return this.pedidos;
+    if (this.isEmployee) {
+      return this.pedidos;
+    } else if (this.isClient) {
+      return this.pedidos.filter((element) => element.id_cliente == this.userLogged.id_usuario);
+    }
   }
 
   ngOnInit(): void {
     this.listaPedidos();
-    //this.initHandler();
   }
 
   public listaPedidos(): void {
@@ -91,9 +90,11 @@ export class PedidosComponent implements OnInit {
       .subscribe((res) => pedido.estado = res );
   }
 
-  openVerticallyCentered(pedido: IPedido) {
+  openVerticallyCentered(pedido: IPedido, tipo: string) {
     const modal = this.modalService.open(ModalinfoComponent, { centered: true });
+    modal.componentInstance.usuario = null;
     modal.componentInstance.pedido = pedido;
+    modal.componentInstance.tipo = tipo;
   }
 
 }

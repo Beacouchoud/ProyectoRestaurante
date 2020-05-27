@@ -21,4 +21,8 @@ export class PlatoService {
       map(platos => platos as Array<IPlato>)
     );
   }
+
+  enablePlato(habilitado: number, id: string): Observable<any> {
+    return this.http.post(environment.URL_API + '/enablePlato', {habilitado, id});
+  }
 }

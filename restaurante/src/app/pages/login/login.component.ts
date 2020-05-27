@@ -38,11 +38,9 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (usu: any) => {
           if (usu.habilitado === 1) {
-            console.log(usu);
             this.usuario = usu;
             this.router.navigate(['/home']);
           } else {
-            console.log(usu);
             this.msg = 'Usuario o contraseña incorrectos';
             this.error = true;
           }
@@ -60,5 +58,4 @@ export class LoginComponent implements OnInit {
     this.msg = error.error.message;
     this.error = true;
   }
-
 }

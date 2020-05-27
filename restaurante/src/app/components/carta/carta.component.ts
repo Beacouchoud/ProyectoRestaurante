@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IPlato } from 'src/app/models/plato.model';
 import { PlatoService } from 'src/app/services/plato.service';
 import { ETipoPlato } from 'src/app/models/plato-tipo';
-import { Utils } from '../shared/utils';
+import { Utils } from '../../models/utils';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -25,11 +25,15 @@ export class CartaComponent extends Utils implements OnInit {
   }
 
   public get platos(): Array<IPlato> {
-    return this.platosCarta;
+    if (this.isAdmin) {
+      return this.platosCarta;
+    } else {
+      return this.platosCarta.filter((element) => element.habilitado == 1);
+    }
   }
 
   public get entrantes(): Array<IPlato> {
-    return this.platosCarta.filter((element) => element.tipo === ETipoPlato.ENTRANTE);
+    return this.platos.filter((element) => element.tipo === ETipoPlato.ENTRANTE);
   }
 
   public get arroces(): Array<IPlato> {
@@ -61,6 +65,15 @@ export class CartaComponent extends Utils implements OnInit {
     );
   }
 
-
-
+  public habilitarPlato(plato: IPlato) {
+    let habilitado = plato.habilitado == 1 ? 0 : 1;
+    this.pltSrv.enablePlato(habilitado, plato.id_plato.toString())
+      .subscribe(
+        (res) => plato.habilitado = res,
+        (error) => console.log('error', error)
+      );
+  }
 }
+
+
+

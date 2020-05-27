@@ -29,7 +29,7 @@ export class RegistroComponent implements OnInit {
       nombre: [!this.usuario ? null : this.usuario.nombre , [Validators.pattern('[a-zA-ZÑñ ]*'), Validators.required]],
       direccion: [!this.usuario ? null : this.usuario.direccion, [Validators.required]],
       email: [!this.usuario ? null : this.usuario.email , [Validators.email, Validators.required]],
-      habilitado: [!this.usuario ? true : this.usuario.habilitado, [Validators.required]],
+      habilitado: [!this.usuario ? 1 : this.usuario.habilitado, [Validators.required]],
       nivel: [!this.usuario ? 1 : this.usuario.nivel, [Validators.required]],
       password: [!this.usuario ? null : this.usuario.password, [Validators.minLength(8), Validators.required]],
       telefono: [!this.usuario ? null : this.usuario.telefono, [Validators.pattern('[0-9]*'), Validators.required]]
@@ -38,14 +38,9 @@ export class RegistroComponent implements OnInit {
 
   public registrarse(): void {
     if (this.form.valid) {
-     // if (this.usuario.idUsuario) {
-
-     // } else {
-
-        this.usuarioService.createUsuario(this.form.getRawValue())
-        .subscribe((usu: IUsuario) => this.usuario = usu,
-                  (error) => this.handleError(error));
-     // }
+      this.usuarioService.createUsuario(this.form.getRawValue())
+      .subscribe((usu: IUsuario) => this.usuario = usu,
+                (error) => this.handleError(error));
     }
   }
 

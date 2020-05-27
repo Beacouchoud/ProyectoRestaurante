@@ -32,7 +32,7 @@ export class PedidoService {
   }
 
   cambiaEstado(id: number , estado: EEstado): Observable<any> {
-    return this.http.post(environment.URL_API + '/updateEstado', {idPedido: id, estado})
+    return this.http.post(environment.URL_API + '/updateEstado', {idPedido: id, estado});
   }
 }
 

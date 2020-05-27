@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse  } from '@angular/common/http';
 import { Observable, throwError  } from 'rxjs';
@@ -20,27 +19,20 @@ export class AuthInterceptorService implements HttpInterceptor {
 
     if (token) {
       request = req.clone({
-        setHeaders: {
-          authorization: `Bearer ${ token }`
-        }
+          headers: req.headers.set('Authorization', `${ token }`)
       });
     }
 
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
-
         if (err.status === 401) {
-          //sessionStorage.removeItem('token');
-          //this.router.navigateByUrl('/login');
+          sessionStorage.removeItem('token');
+          this.router.navigateByUrl('/login');
         }
-
         return throwError( err );
-
       })
     );
   }
-
-
 }
 
-// Los interceptors son una manera sencilla de manipular nuestras peticiones y respuestas, evitando así realizar dicha modificación en cada servicio que realizamos manualmente. Esto nos ayuda a tener un código más limpio y mantenible.
+
