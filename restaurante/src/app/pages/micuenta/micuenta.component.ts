@@ -12,7 +12,7 @@ import { Utils } from 'src/app/models/utils';
 })
 export class MicuentaComponent extends Utils implements OnInit {
   public usuario: IUsuario;
-  public form: FormGroup;
+  public formUserData: FormGroup;
   public formPwd: FormGroup;
   public error: boolean;
   public errorCode: string;
@@ -37,7 +37,7 @@ export class MicuentaComponent extends Utils implements OnInit {
   }
 
   private initForm(): void {
-    this.form = this.fb.group({
+    this.formUserData = this.fb.group({
       apellido: [
         this.usuario.apellido,
         [Validators.pattern('[a-zA-ZÑñ ]*'), Validators.required],
@@ -65,11 +65,11 @@ export class MicuentaComponent extends Utils implements OnInit {
   }
 
   public modificarDatos(): void {
-    if (this.form.valid) {
+    if (this.formUserData.valid) {
       this.usuSrv
         .updateUsuario(
           this.usuario.id_usuario.toString(),
-          this.form.getRawValue()
+          this.formUserData.getRawValue()
         )
         .subscribe(
           (usu: IUsuario) => (this.usuario = usu),
@@ -94,8 +94,8 @@ export class MicuentaComponent extends Utils implements OnInit {
 
   public hasError(formControlName: string): boolean {
     return (
-      this.form.controls[formControlName].errors &&
-      this.form.controls[formControlName].dirty
+      this.formUserData.controls[formControlName].errors &&
+      this.formUserData.controls[formControlName].dirty
     );
   }
 

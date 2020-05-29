@@ -34,9 +34,11 @@ export class PedidosComponent extends Utils implements OnInit {
   }
 
   public get pedidosLista(): Array<IPedido> {
-    if (this.isEmployee) {
+    if (this.isEmployee ) {
+      this.totalItems = this.pedidos.length;
       return this.pedidos;
     } else if (this.isClient) {
+      this.totalItems = this.pedidos.filter((element) => element.id_cliente == this.userLogged.id_usuario).length;
       return this.pedidos.filter((element) => element.id_cliente == this.userLogged.id_usuario);
     }
   }

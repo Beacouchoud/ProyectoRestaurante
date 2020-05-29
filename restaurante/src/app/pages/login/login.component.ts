@@ -8,8 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styles: [
-  ]
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
@@ -27,7 +26,7 @@ export class LoginComponent implements OnInit {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      email: ['bea@admin', [Validators.email, Validators.required]],
+      email: [null, [Validators.email, Validators.required]],
       password: ['asdasdasd', [Validators.minLength(8), Validators.required]]
     });
   }

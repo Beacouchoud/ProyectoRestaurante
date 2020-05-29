@@ -28,9 +28,12 @@
         <td class="d-none d-md-table-cell">{{pedido.fecha|date}}</td>
         <td class="d-none d-md-table-cell">{{pedido.direccion}}</td>
         <td class="d-none d-md-table-cell">
-          <div class="form-group" *ngIf="!!estados">
+          <div class="form-group" *ngIf="isAdmin">
             <ng-select [disabled]="pedido.estado === enumEstados.CANCELADO" [items]="estados" [bindLabel]="'label'" [bindValue]="'value'" [(ngModel)]="pedido.estado"  (change)="onSelectChange($event, pedido)" [id]="'estado-' + pedido.id_pedido"   [multiple]="false" >
             </ng-select>
+          </div>
+          <div class="form-group" *ngIf="isClient">
+            <p>{{ pedido.estado |uppercase }}</p>
           </div>
         </td>
         <td>{{pedido.precio_total|currency:'EUR':'symbol'}}</td>

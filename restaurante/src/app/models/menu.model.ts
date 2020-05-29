@@ -5,7 +5,7 @@ export interface IMenu {
   nombre_menu: string;
   descripcion: string;
   imagen: string;
-  platos: Array<any>;
+  platos: Array<IPlato>;
   precio: number;
   habilitado: number;
 }

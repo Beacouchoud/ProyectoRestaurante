@@ -23,8 +23,17 @@ function createRouter(dbConnection) {
   router.post("/enablePlato", enablePlato);
   router.post("/enableUser", enableUser);
   router.post("/updateNivel", updateNivel);
+  router.post("/updatePlato", updatePlato);
+  router.post("/updateMenu", updateMenu);
+  router.post("/updateUser", updateUser);
+  router.post("/updatePwd", updatePwd);
   return router;
 }
+
+const updatePlato= (req,res,next) => {}
+const updateMenu= (req,res,next) => {}
+const updateUser= (req,res,next) => {}
+const updatePwd= (req,res,next) => {}
 
 function getSession() {
   return sess;

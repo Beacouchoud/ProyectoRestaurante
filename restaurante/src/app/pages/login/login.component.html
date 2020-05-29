@@ -11,16 +11,14 @@
 
 
       <!-- Email -->
-      <input [formControlName]="'email'" type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
-
+      <div class="form-label-group">
+        <input [formControlName]="'email'" type="email" id="inputEmail" class="text-left form-control" placeholder="E-mail">
+        <label class="text-left " for="inputEmail">Email</label>
+      </div>
       <!-- Password -->
-      <input [formControlName]="'password'" type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
-
-      <div class="d-flex justify-content-around">
-          <div>
-              <!-- Forgot password -->
-              <a href="">¿Has olvidado la contraseña?</a>
-          </div>
+      <div class="form-label-group">
+        <input [formControlName]="'password'" type="password" id="inputPwd" class="form-control" placeholder="Password">
+        <label class="text-left " for="inputPwd">Contraseña</label>
       </div>
 
       <!-- Sign in button -->

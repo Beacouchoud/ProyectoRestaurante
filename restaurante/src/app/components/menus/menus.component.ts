@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Utils } from '../../models/utils';
 import { MenuService } from 'src/app/services/menu.service';
 import { IMenu } from 'src/app/models/menu.model';
+import { MenuformComponent } from '../menuform/menuform.component';
 
 @Component({
   selector: 'app-menus',
@@ -13,6 +14,8 @@ import { IMenu } from 'src/app/models/menu.model';
 export class MenusComponent extends Utils implements OnInit {
 
   private menu;
+  public isCollapsed = true;
+  @ViewChild(MenuformComponent) menuFormComponent: MenuformComponent;
 
   constructor(private usuSrv: UsuarioService, private mnSrv: MenuService) {
     super(usuSrv);
@@ -49,12 +52,24 @@ export class MenusComponent extends Utils implements OnInit {
     });
   }
 
-  public habilitarMenu(menu: IMenu) {
+  public habilitarMenu(menu: IMenu): void {
     let habilitado = menu.habilitado ? 0 : 1;
     this.mnSrv.enableMenu(habilitado, menu.id_menu.toString())
       .subscribe(
         (res) => menu.habilitado = res,
         (error) => console.log('error', error)
       );
+    }
+
+    public modificarMenu(menu: IMenu): void {
+      this.menuFormComponent.menuSeleccionado = menu;
+      this.menuFormComponent.initForm();
+      this.isCollapsed = false;
+    }
+
+    public nuevoMenu() {
+      this.menuFormComponent.menuSeleccionado = null;
+      this.menuFormComponent.initForm();
+      this.isCollapsed = false;
     }
   }

@@ -1,18 +1,18 @@
 <div class="container-fluid">
-  <div *ngIf="form" class="row d-flex justify-content-around">
+  <div *ngIf="formUserData" class="row d-flex justify-content-around">
 
     <div class="card col-9 col-md-8 col-lg-5 text-center my-4 mx-auto p-0 shadow-lg rounded">
       <h5 class="card-header">Mis datos <small> #{{userLogged.id_usuario}} </small> </h5>
       <div class="card-body">
-        <form class="text-center border border-light p-5" [formGroup]="form" (ngSubmit)="modificarDatos()" >
+        <form class="text-center border border-light p-5" [formGroup]="formUserData" (ngSubmit)="modificarDatos()" >
           <div class="form-row mb-4">
             <div class="col">
               <!-- First name -->
-              <input type="text" [formControlName]="'nombre'" class="form-control" placeholder="First name" />
+              <input type="text" [formControlName]="'nombre'" class="form-control" placeholder="Nombre" />
             </div>
             <div class="col">
               <!-- Last name -->
-              <input type="text" [formControlName]="'apellido'" class="form-control" placeholder="Last name" />
+              <input type="text" [formControlName]="'apellido'" class="form-control" placeholder="Apellido" />
             </div>
           </div>
 
@@ -20,12 +20,12 @@
           <input type="email" [formControlName]="'email'" class="form-control mb-4" placeholder="E-mail" />
 
           <!-- Phone number -->
-          <input type="text" [formControlName]="'telefono'" class="form-control mb-4" placeholder="Phone number"/>
+          <input type="number" [formControlName]="'telefono'" class="form-control mb-4" placeholder="Telefono"/>
 
           <!-- Adress -->
-          <input type="text" [formControlName]="'direccion'" class="form-control mb-4" placeholder="Phone number"/>
+          <input type="text" [formControlName]="'direccion'" class="form-control mb-4" placeholder="Dirección"/>
 
-          <button class="btn btn-info my-4 btn-block" [disabled]="form.invalid" type="submit">
+          <button class="btn btn-info my-4 btn-block" [disabled]="formUserData.invalid" type="submit">
             Guardar cambios
           </button>
         </form>
@@ -47,7 +47,7 @@
 
           <input type="password" [formControlName]="'newPassword2'" class="form-control mb-4" placeholder="Repita la contraseña"/>
 
-          <button class="btn btn-info my-4 btn-block" [disabled]="form.invalid" type="submit">
+          <button class="btn btn-info my-4 btn-block" [disabled]="formPwd.invalid" type="submit">
             Modificar contraseña
           </button>
         </form>

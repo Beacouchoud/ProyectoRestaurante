@@ -1,20 +1,25 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import {IOption} from 'ng-select';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { IOption } from 'ng-select';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PlatoService } from 'src/app/services/plato.service';
 import { IPlato } from 'src/app/models/plato.model';
 import { MenuService } from 'src/app/services/menu.service';
+import { IMenu } from 'src/app/models/menu.model';
 
 @Component({
   selector: 'app-menuform',
   templateUrl: './menuform.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class MenuformComponent implements OnInit, OnDestroy {
-
   public form: FormGroup;
   private platos: Array<IPlato>;
+
+  public menuSeleccionado: IMenu;
+
+  @Output() collapseEvent:EventEmitter<boolean> = new EventEmitter<boolean>();
+  isCollapsed:boolean = false;
+
 
 
   constructor(private fb: FormBuilder, private pltSrv: PlatoService, private mnSrv: MenuService) {
@@ -26,25 +31,24 @@ export class MenuformComponent implements OnInit, OnDestroy {
     this.initForm();
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy(): void {}
 
-  }
-
-  private initForm(): void {
+  public initForm(): void {
+    console.log('init form menu');
     this.form = this.fb.group({
-      nombre: [null, []],
-      descripcion: [null, []],
-      imagen: [null, []],
-      platos: [[ ], [Validators.required]],
-      precioReal: [{value: null, disabled: true}, []],
-      precio: [null, []],
-      habilitado: [1, []]
+      nombre: [!this.menuSeleccionado ? null : this.menuSeleccionado.nombre_menu, []],
+      descripcion: [!this.menuSeleccionado ? null : this.menuSeleccionado.descripcion, []],
+      imagen: [!this.menuSeleccionado ? null : this.menuSeleccionado.imagen, []],
+      platos: [!this.menuSeleccionado ? null : this.menuSeleccionado.platos, [Validators.required]],
+      precioReal: [{ value: !this.menuSeleccionado ? null : this.findPrecios(this.menuSeleccionado.platos), disabled: true }, []],
+      precio: [!this.menuSeleccionado ? null : this.menuSeleccionado.precio, []],
+      habilitado: [1, []],
     });
     this.handlePlatosChange();
   }
 
   private handlePlatosChange(): void {
-    this.form.controls.platos.valueChanges.subscribe((platosSelected: Array<number>) => {
+    this.form.controls.platos.valueChanges.subscribe((platosSelected: Array<IPlato>) => {
       this.form.controls.precioReal.setValue(this.findPrecios(platosSelected));
     });
   }
@@ -54,26 +58,27 @@ export class MenuformComponent implements OnInit, OnDestroy {
   }
 
   public creaMenu() {
-    this.mnSrv.createMenu(this.form.getRawValue())
-    .subscribe(
-      (menu) => console.log(menu),
+    this.mnSrv.createMenu(this.form.getRawValue()).subscribe(
+      (menu) => (this.menuSeleccionado = null),
       (error) => console.log(error)
     );
   }
 
   public listaPlatos(): void {
-    this.pltSrv.listaPlatos()
-    .subscribe(
-      (platos) => this.platos = platos,
+    this.pltSrv.listaPlatos().subscribe(
+      (platos) => (this.platos = platos),
       (error) => {
         console.log(error);
       }
     );
   }
 
-  private findPrecios(platos: Array<number>): number {
+  private findPrecios(platos: Array<IPlato>): number {
     let precioTotal = 0;
-    platos.map(idPlato => this.platos.find((plato: IPlato) => plato.id_plato === idPlato).precio).forEach(precio => precioTotal += precio);
+    platos.map((plato) => plato.precio).forEach((precio) => (precioTotal += precio));
     return precioTotal;
+  }
+  public cerrarMenu() {
+    this.collapseEvent.emit(true);
   }
 }

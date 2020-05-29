@@ -1,10 +1,10 @@
 
-<app-jumbotron *ngIf="!isLoggedIn || isClient"></app-jumbotron>
+<app-jumbotron id="jumbo" *ngIf="!isLoggedIn || isClient"></app-jumbotron>
 <div class="container-fluid p-4">
 <app-menus id="menus"></app-menus>
 <app-carta id="carta"></app-carta>
 <app-pedidos id="pedidos" *ngIf="isEmployee"></app-pedidos>
-<app-pedido id="pedidos" *ngIf="isClient"></app-pedido>
+<app-pedido id="pedido" *ngIf="isClient"></app-pedido>
 <app-usuarios id="usuarios" *ngIf="isAdmin"></app-usuarios>
 </div>
 <app-contacto id="contacto" *ngIf="!isLoggedIn || isClient"></app-contacto>

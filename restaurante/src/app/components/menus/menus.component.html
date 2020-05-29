@@ -1,11 +1,10 @@
 <h1 class="text-center">Menús
-  <button *ngIf="isAdmin" class="btn btn-primary ml-2" type="button" data-toggle="collapse"
-    data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+  <button *ngIf="isAdmin" class="btn btn-primary ml-2"  type="button" class="btn btn-outline-primary" (click)="nuevoMenu()">
     Crear menú
   </button></h1>
-<div class="collapse" id="collapseExample">
+<div id="collapseExample" [ngbCollapse]="isCollapsed">
   <div class="card card-body">
-    <app-menuform></app-menuform>
+    <app-menuform (collapseEvent)="isCollapsed = $event"></app-menuform>
   </div>
 </div>
 <div class="d-flex flex-row flex-wrap justify-content-xs-around justify-content-md-between justify-content-lg-around">
@@ -21,8 +20,8 @@
     <div class="card-body col-12">
       <div *ngIf="isAdmin" class="row">
         <div class="col-6">
-          <button class="btn btn-secondary " type="button" data-toggle="collapse"
-            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          <button class="btn btn-secondary " type="button"
+             (click)="modificarMenu(menu)" aria-expanded="false" aria-controls="collapseExample">
             Editar menú
           </button>
         </div>
