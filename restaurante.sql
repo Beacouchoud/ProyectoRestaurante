@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-05-2020 a las 17:07:12
+-- Tiempo de generación: 31-05-2020 a las 19:18:57
 -- Versión del servidor: 10.4.11-MariaDB
--- Versión de PHP: 7.4.4
+-- Versión de PHP: 7.4.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,8 +29,26 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `detalle_pedido` (
   `id_pedido` int(11) NOT NULL,
-  `id_menu` int(11) NOT NULL
+  `id_menu` int(11) NOT NULL,
+  `nombre_menu` varchar(200) NOT NULL,
+  `cantidad` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `detalle_pedido`
+--
+
+INSERT INTO `detalle_pedido` (`id_pedido`, `id_menu`, `nombre_menu`, `cantidad`) VALUES
+(36, 66, 'Menú 4', 4),
+(37, 63, 'Menú 1', 1),
+(37, 64, 'Menú 2', 1),
+(38, 66, 'Menú 4', 2),
+(39, 65, 'Menú 3', 1),
+(40, 63, 'Menú 1', 1),
+(40, 64, 'Menú 2', 1),
+(40, 66, 'Menú 4', 1),
+(41, 63, 'Menú 1', 1),
+(41, 65, 'Menú 3', 1);
 
 -- --------------------------------------------------------
 
@@ -52,10 +70,10 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`id_menu`, `nombre_menu`, `descripcion`, `imagen`, `precio`, `habilitado`) VALUES
-(34, 'Menú 1', 'Este es un menú de prueba', 'https://www.zerya.org/wp-content/uploads/2019/03/no-image-found.png', '25', 1),
-(35, 'Menú 2', 'Este es un menú de prueba también', 'https://www.zerya.org/wp-content/uploads/2019/03/no-image-found.png', '40', 1),
-(36, 'Menú 3', 'Este es un tercer menú de prueba ', 'https://www.zerya.org/wp-content/uploads/2019/03/no-image-found.png', '35', 1),
-(37, 'Menú 4', 'Este es un menú de prueba deshabilitado', 'https://www.zerya.org/wp-content/uploads/2019/03/no-image-found.png', '40', 0);
+(63, 'Menú 1', 'Descripción del menú 1', 'https://www.zerya.org/wp-content/uploads/2019/03/no-image-found.png', '55', 1),
+(64, 'Menú 2', 'Descripción del menú 2', 'https://www.zerya.org/wp-content/uploads/2019/03/no-image-found.png', '50', 1),
+(65, 'Menú 3', 'Descripción del menú 3', 'https://www.zerya.org/wp-content/uploads/2019/03/no-image-found.png', '75', 1),
+(66, 'Menú 4', 'Descripción del menú 4', 'https://www.zerya.org/wp-content/uploads/2019/03/no-image-found.png', '55', 1);
 
 -- --------------------------------------------------------
 
@@ -68,9 +86,24 @@ CREATE TABLE `pedido` (
   `id_cliente` int(11) NOT NULL,
   `fecha` date NOT NULL,
   `direccion` varchar(500) NOT NULL,
+  `telefono` varchar(15) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `forma_pago` varchar(15) NOT NULL,
   `estado` varchar(100) NOT NULL,
   `precio_total` decimal(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `pedido`
+--
+
+INSERT INTO `pedido` (`id_pedido`, `id_cliente`, `fecha`, `direccion`, `telefono`, `email`, `forma_pago`, `estado`, `precio_total`) VALUES
+(36, 56, '2020-06-02', 'Calle Archiduque Carlos 12', '652360120', 'bea@cliente.com', 'tarjeta', 'ENTREGADO', '220'),
+(37, 56, '2020-06-04', 'Calle Archiduque Carlos 12', '652360120', 'bea@cliente.com', 'tarjeta', 'CANCELADO', '105'),
+(38, 56, '2020-06-04', 'Calle Archiduque Carlos 12', '652360120', 'bea@cliente.com', 'tarjeta', 'ACEPTADO', '110'),
+(39, 59, '2020-06-03', 'Calle Archiduque Carlos, 12', '652360099', 'clara@couchoud.com', 'efectivo', 'PENDIENTE', '75'),
+(40, 59, '2020-07-21', 'Calle Archiduque Carlos, 12', '652360099', 'clara@couchoud.com', 'tarjeta', 'PENDIENTE', '160'),
+(41, 60, '2020-07-13', 'Calle de la Reina,27', '634432312', 'mcarmen@moreno.com', 'tarjeta', 'ACEPTADO', '130');
 
 -- --------------------------------------------------------
 
@@ -92,10 +125,21 @@ CREATE TABLE `plato` (
 --
 
 INSERT INTO `plato` (`id_plato`, `nombre_plato`, `descripcion`, `precio`, `tipo`, `habilitado`) VALUES
-(1, 'prueba', NULL, '12', 'ENTRANTE', 1),
-(10, 'prueba2', NULL, '15', 'ENTRANTE', 1),
-(13, 'prueba3', NULL, '10', 'ARROZ', 1),
-(15, 'prueba4', NULL, '2', 'ENTRANTE', 1);
+(20, 'Entrante 1', NULL, '7', 'ENTRANTE', 1),
+(21, 'Entrante 2', NULL, '10', 'ENTRANTE', 1),
+(22, 'Entrante 3', NULL, '8', 'ENTRANTE', 1),
+(23, 'Arroz 1', NULL, '15', 'ARROZ', 1),
+(24, 'Arroz 2', NULL, '14', 'ARROZ', 1),
+(25, 'Arroz 3', NULL, '13', 'ARROZ', 1),
+(26, 'Carne 1', NULL, '18', 'CARNE', 1),
+(27, 'Carne 2', NULL, '25', 'CARNE', 1),
+(28, 'Carne 3', NULL, '44', 'CARNE', 1),
+(29, 'Pescado 1', NULL, '20', 'PESCADO', 1),
+(30, 'Pescado 2', NULL, '28', 'PESCADO', 1),
+(31, 'Pescado 3', NULL, '21', 'PESCADO', 1),
+(32, 'Postre 1', NULL, '6', 'POSTRE', 1),
+(33, 'Postre 2', NULL, '7', 'POSTRE', 1),
+(34, 'Postre 3', NULL, '6', 'POSTRE', 1);
 
 -- --------------------------------------------------------
 
@@ -113,19 +157,24 @@ CREATE TABLE `platos_menu` (
 --
 
 INSERT INTO `platos_menu` (`id_menu`, `id_plato`) VALUES
-(34, 1),
-(34, 10),
-(35, 1),
-(35, 10),
-(35, 13),
-(36, 1),
-(36, 10),
-(36, 13),
-(36, 15),
-(37, 1),
-(37, 10),
-(37, 13),
-(37, 15);
+(63, 20),
+(63, 21),
+(63, 24),
+(63, 29),
+(63, 33),
+(64, 22),
+(64, 24),
+(64, 27),
+(64, 32),
+(65, 21),
+(65, 23),
+(65, 28),
+(65, 33),
+(66, 21),
+(66, 22),
+(66, 24),
+(66, 29),
+(66, 32);
 
 -- --------------------------------------------------------
 
@@ -159,7 +208,7 @@ CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `apellido` varchar(150) NOT NULL,
-  `password` varchar(100) NOT NULL,
+  `password` varchar(300) NOT NULL,
   `email` varchar(150) NOT NULL,
   `telefono` varchar(15) NOT NULL,
   `direccion` varchar(300) NOT NULL,
@@ -172,12 +221,11 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `password`, `email`, `telefono`, `direccion`, `nivel`, `habilitado`) VALUES
-(4, 'bea', 'couchoud', '12345678', 'bea@couchoud', '123456789', 'direccion', 1, 1),
-(27, 'asd', 'asd', 'asdasdasd', 'bea@couchoud.com', '123123123', 'qweqweqwe', 1, 1),
-(29, 'asd', 'asd', 'aqasdasdasd', 'bea@couchoud2', '123123123', 'asdasdas', 1, 1),
-(30, 'asdad', 'asdasd', 'asdasdasd', 'bea@couchoud3', '123123123', 'asdasdsd', 1, 1),
-(44, 'bea', 'couchoud', 'asdasdasd', 'bea@admin', '12345678', 'asdfasdf', 3, 1),
-(45, 'bea', 'couchoud', 'asdasdasd', 'bea@emple', '12345678', 'asdasdasd', 2, 1);
+(56, 'Bea', 'Couchoud', '$2b$04$Ru2DHUjFdya3lkridUz3eudLf1Lw/6gXOe8uPRzfYOfJI/hzpe7Be', 'bea@cliente.com', '652360120', 'Calle Archiduque Carlos 12', 1, 1),
+(57, 'Bea', 'Couchoud', '$2b$04$Y2IWfYut8JTCTsmXCRwqt.Eul32d9.f11cS.6B2LWd9w90NwXvqXS', 'bea@empleado.com', '652360120', 'Calle Archiduque Carlos 12', 2, 1),
+(58, 'Bea', 'Couchoud', '$2b$04$usoohMYbJwbyHYClr114PeCU7muWIEOYqmM0ChvkomkTR99WrnqKG', 'bea@admin.com', '652360120', 'Calle Archiduque Carlos 12', 3, 1),
+(59, 'Clara', 'Couchoud', '$2b$04$7n4Na67X2PLIFqOScCOGNO/YZcNtDhLqUH3LJt8jQpkS.G54J8ykm', 'clara@couchoud.com', '652360099', 'Calle Archiduque Carlos, 12', 1, 1),
+(60, 'Carmen', 'Moreno', '$2b$04$hJqVa4ZwfUt7qNqQUaM90Oz1Ao88fvrj2GT4OHw6O3kPW4c/wIBPa', 'mcarmen@moreno.com', '634432312', 'Calle de la Reina,27', 1, 1);
 
 --
 -- Índices para tablas volcadas
@@ -187,7 +235,7 @@ INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `password`, `email`, 
 -- Indices de la tabla `detalle_pedido`
 --
 ALTER TABLE `detalle_pedido`
-  ADD PRIMARY KEY (`id_pedido`,`id_menu`),
+  ADD PRIMARY KEY (`id_pedido`,`id_menu`) USING BTREE,
   ADD KEY `id_menu` (`id_menu`);
 
 --
@@ -245,19 +293,19 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT de la tabla `pedido`
 --
 ALTER TABLE `pedido`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT de la tabla `plato`
 --
 ALTER TABLE `plato`
-  MODIFY `id_plato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_plato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -269,7 +317,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- Restricciones para tablas volcadas
@@ -279,21 +327,21 @@ ALTER TABLE `usuario`
 -- Filtros para la tabla `detalle_pedido`
 --
 ALTER TABLE `detalle_pedido`
-  ADD CONSTRAINT `detalle_pedido_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `plato` (`id_plato`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `detalle_pedido_ibfk_2` FOREIGN KEY (`id_menu`) REFERENCES `menu` (`id_menu`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `detalle_pedido_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedido` (`id_pedido`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `detalle_pedido_ibfk_2` FOREIGN KEY (`id_menu`) REFERENCES `menu` (`id_menu`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `pedido`
 --
 ALTER TABLE `pedido`
-  ADD CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `usuario` (`id_usuario`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `platos_menu`
 --
 ALTER TABLE `platos_menu`
-  ADD CONSTRAINT `platos_menu_ibfk_1` FOREIGN KEY (`id_plato`) REFERENCES `plato` (`id_plato`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `platos_menu_ibfk_2` FOREIGN KEY (`id_menu`) REFERENCES `menu` (`id_menu`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `platos_menu_ibfk_1` FOREIGN KEY (`id_plato`) REFERENCES `plato` (`id_plato`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `platos_menu_ibfk_2` FOREIGN KEY (`id_menu`) REFERENCES `menu` (`id_menu`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuario`
