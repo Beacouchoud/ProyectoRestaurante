@@ -3,22 +3,34 @@
   <h5 class="card-header">Inicia sesión</h5>
   <div class="card-body">
     <div *ngIf=" error == true ">
-      <div class="alert alert-danger mb-4" role="alert">
+      <div class="alert alert-danger mb-4 animate__animated animate__shakeX" role="alert">
         {{ msg }}
       </div>
     </div>
-    <form [formGroup]="form" class="text-center border border-light p-5" (ngSubmit)="login()">
+    <form [formGroup]="form"  *ngIf="form" class="text-center border border-light p-5 " (ngSubmit)="login()">
 
 
       <!-- Email -->
       <div class="form-label-group">
-        <input [formControlName]="'email'" type="email" id="inputEmail" class="text-left form-control" placeholder="E-mail">
+        <input [formControlName]="'email'" id="inputEmail" type="email" class="form-control" placeholder="E-mail" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$"
+        [ngClass]="{'border-danger': form.controls.email.dirty && form.controls.email.invalid}" >
+        <div class="text-danger" *ngIf="form.controls.email.dirty && form.controls.email.invalid">
+          Escribe un email válido
+        </div>
         <label class="text-left " for="inputEmail">Email</label>
+
       </div>
       <!-- Password -->
       <div class="form-label-group">
-        <input [formControlName]="'password'" type="password" id="inputPwd" class="form-control" placeholder="Password">
+        <input [formControlName]="'password'" type="password" id="inputPwd" class="form-control" placeholder="Password"
+        [ngClass]="{'border-danger': form.controls.password.dirty && form.controls.password.invalid}" >
+        <div class="text-danger" *ngIf="form.controls.password.dirty && form.controls.password.invalid">
+          Escribe una contraseña válida
+        </div>
         <label class="text-left " for="inputPwd">Contraseña</label>
+        <div class="invalid-feedback">
+          Valid first name is required.
+        </div>
       </div>
 
       <!-- Sign in button -->

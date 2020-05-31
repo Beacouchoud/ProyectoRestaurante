@@ -3,7 +3,7 @@ import { IMenu } from 'src/app/models/menu.model';
 import { MenuService } from 'src/app/services/menu.service';
 import { Utils } from '../../models/utils';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { IUsuario } from 'src/app/models/usuario.model';
 import { PedidoService } from 'src/app/services/pedido.service';
 
@@ -16,7 +16,11 @@ export class PedidoComponent extends Utils implements OnInit {
   public form: FormGroup;
   private opciones: Array<IMenu>;
   private user: IUsuario;
-
+  public precioFinal: number = 0;
+  public msg: string;
+  public error: boolean = null;
+  fecha: Date = new Date(new Date().setDate(new Date().getDate() + 1));
+  public fechasDisponibles: string = this.fecha.toISOString().split('T')[0];
   constructor(
     private fb: FormBuilder,
     private mnuSrv: MenuService,
@@ -34,28 +38,50 @@ export class PedidoComponent extends Utils implements OnInit {
 
   private initForm(): void {
     this.form = this.fb.group({
-      nombre: [this.user.nombre, []],
-      apellido: [this.user.apellido, []],
-      direccion: [this.user.direccion, []],
-      email: [this.user.email, []],
-      fecha: [[null], []],
-      telefono: [this.user.telefono, []],
-      pago: [null, []],
-      detalle_pedido: this.fb.array(this.initialiceDetallePedido()),
+      nombre: [this.user.nombre, [Validators.required]],
+      apellido: [this.user.apellido, [Validators.required]],
+      direccion: [this.user.direccion, [Validators.required]],
+      email: [this.user.email, [Validators.required]],
+      fecha: [[null], [Validators.required]],
+      telefono: [this.user.telefono, [Validators.required]],
+      pago: [null, [Validators.required]],
+      precio:  [{value: 0, disabled: true}, [Validators.required]],
+      detalle_pedido: this.fb.array(this.initialiceDetallePedido())
     });
 
+    this.handleDetallePedido();
+    this.form.controls.precio.valueChanges.subscribe(value => this.precioFinal = value);
     console.log('formulario', this.form);
   }
 
   private initialiceDetallePedido(): Array<FormGroup> {
     return this.opciones.map((element) =>
       this.fb.group({
-        menu: [false, []],
-        id: [element.id_menu, []],
-        nombre_menu: [element.nombre_menu, []],
-        cantidad: [0, []],
+        menu: [false, [Validators.required]],
+        id: [element.id_menu, [Validators.required]],
+        nombre_menu: [element.nombre_menu, [Validators.required]],
+        cantidad: [0, [Validators.required]],
       })
     );
+  }
+
+  private handleDetallePedido(): void {
+    this.form.controls.detalle_pedido['controls'].forEach((formGroup: FormGroup) => {
+      formGroup.controls.cantidad.valueChanges.subscribe(() => this.calculaPrecioTotal());
+      formGroup.controls.menu.valueChanges.subscribe(() => this.calculaPrecioTotal());
+    });
+  }
+
+  private calculaPrecioTotal(): void {
+    this.form.controls.precio.setValue(0);
+    this.form.controls.detalle_pedido['controls'].forEach((formGroup: FormGroup) => {
+      const cantidad = formGroup.controls.cantidad.value;
+      const precio = this.opciones.find(menu => menu.id_menu === formGroup.controls.id.value).precio;
+      if (!isNaN(cantidad) && cantidad > 0 && formGroup.controls.menu.value === true) {
+        const precioTotal = parseInt(cantidad, 10) * precio;
+        this.form.controls.precio.setValue(this.form.controls.precio.value + precioTotal);
+      }
+    });
   }
 
   public get menus(): Array<IMenu> {
@@ -80,8 +106,15 @@ export class PedidoComponent extends Utils implements OnInit {
 
   public creaPedido() {
     this.pdSrv.createPedido(this.userLogged, this.form.getRawValue()).subscribe(
-      (res) => console.log(res),
-      (error) => console.log(error)
+      (res) => {this.error = false; this.msg = 'Pedido realizado correctamente'; setTimeout(this.nuevoPedido, 5000)},
+      (error) => {console.log(error); this.error = true; this.msg = 'Ha ocurrido un error al realizar el pedido'}
     );
+  }
+
+  public nuevoPedido() {
+    this.error = null;
+    this.msg = '';
+    this.precioFinal = 0;
+    this.initForm();
   }
 }

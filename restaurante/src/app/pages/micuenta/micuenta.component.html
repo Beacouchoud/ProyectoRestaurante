@@ -5,6 +5,16 @@
       <h5 class="card-header">Mis datos <small> #{{userLogged.id_usuario}} </small> </h5>
       <div class="card-body">
         <form class="text-center border border-light p-5" [formGroup]="formUserData" (ngSubmit)="modificarDatos()" >
+          <div class="col-12 text-center p-0" *ngIf="error1 === true">
+            <div class="alert alert-danger mb-4 animate__animated animate__shakeX" role="alert">
+              {{ msg1 }}
+            </div>
+          </div>
+          <div class="col-12 text-center p-0 animate__animated animate__fadeIn" *ngIf="error1 === false">
+            <div class="alert alert-success mb-4 animate__animated animate__fadeIn" role="alert">
+              {{ msg1 }}
+            </div>
+          </div>
           <div class="form-row mb-4">
             <div class="col">
               <!-- First name -->
@@ -24,8 +34,7 @@
 
           <!-- Adress -->
           <input type="text" [formControlName]="'direccion'" class="form-control mb-4" placeholder="Dirección"/>
-
-          <button class="btn btn-info my-4 btn-block" [disabled]="formUserData.invalid" type="submit">
+          <button class="btn btn-info my-4 btn-block" [disabled]="formUserData.invalid || !formUserData.dirty" type="submit">
             Guardar cambios
           </button>
         </form>
@@ -37,6 +46,16 @@
       <h5 class="card-header">Seguridad </h5>
       <div class="card-body">
         <form class="text-center border border-light p-5" [formGroup]="formPwd" (ngSubmit)="modificarPassword()" >
+          <div class="col-12 text-center" *ngIf="error2 === true">
+            <div class="alert alert-danger mb-4 animate__animated animate__shakeX" role="alert">
+              {{ msg2 }}
+            </div>
+          </div>
+          <div class="col-12 text-center" *ngIf="error2 === false">
+            <div class="alert alert-success mb-4 animate__animated animate__fadeIn" role="alert">
+              {{ msg2 }}
+            </div>
+          </div>
           <!-- Password -->
           <input type="password" [formControlName]="'password'" class="form-control mb-2"
             placeholder="Contraseña actual" />
@@ -47,7 +66,7 @@
 
           <input type="password" [formControlName]="'newPassword2'" class="form-control mb-4" placeholder="Repita la contraseña"/>
 
-          <button class="btn btn-info my-4 btn-block" [disabled]="formPwd.invalid" type="submit">
+          <button class="btn btn-info my-4 btn-block" [disabled]="formPwd.invalid || !formPwd.dirty" type="submit">
             Modificar contraseña
           </button>
         </form>

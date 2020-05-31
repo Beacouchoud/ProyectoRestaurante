@@ -1,12 +1,12 @@
 <h1 class="text-center">La carta
-  <button *ngIf="isAdmin" class="btn btn-primary ml-2" type="button" data-toggle="collapse"
-    data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample">
+  <button *ngIf="isAdmin" class="btn btn-primary ml-2" type="button"
+  (click)="nuevoPlato()"  aria-controls="collapseExample">
     Añadir plato
   </button></h1>
 
-<div class="collapse" id="collapseExample2">
+<div id="collapseExample" [ngbCollapse]="isCollapsed">
   <div class="card card-body">
-    <app-platoform></app-platoform>
+    <app-platoform (collapseEvent)="isCollapsed = $event"></app-platoform>
   </div>
 </div>
 
@@ -27,12 +27,12 @@
 
           <li *ngFor="let plato of entrantes; let i=index" class="list-group-item">
             <div class="d-flex row no-wrap">
-              <p class="col-12 text-center my-auto"> {{plato.nombre_plato}} </p>
+              <p class="col-12 text-center my-auto"> {{plato.nombre_plato}} - {{plato.precio}} € </p>
 
               <div *ngIf="isAdmin" class="col-12 d-flex row no-wrap justify-content-center">
 
-                <button *ngIf="true" class="btn btn-secondary mr-2 my-auto" type="button" data-toggle="collapse"
-                  data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
+                <button *ngIf="true" class="btn btn-secondary mr-2 my-auto" type="button"
+                (click)="modificarPlato(plato)" aria-controls="collapseExample2">
                   Editar plato
                 </button>
 
@@ -61,11 +61,10 @@
       <div class="card-body py-1">
         <ul class="list-group list-group-flush">
           <li *ngFor="let plato of arroces; let i=index" class="list-group-item">
-            <p class="col-12 text-center my-auto"> {{plato.nombre_plato}} </p>
+            <p class="col-12 text-center my-auto"> {{plato.nombre_plato}} - {{plato.precio}} €  </p>
             <div *ngIf="isAdmin" class="col-12 d-flex row no-wrap justify-content-center ">
 
-              <button *ngIf="true" class="btn btn-secondary mr-2 my-auto" type="button" data-toggle="collapse"
-                data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
+              <button *ngIf="true" class="btn btn-secondary mr-2 my-auto" type="button" (click)="modificarPlato(plato)" aria-controls="collapseExample2">
                 Editar plato
               </button>
 
@@ -93,11 +92,10 @@
       <div class="card-body py-1">
         <ul class="list-group list-group-flush">
           <li *ngFor="let plato of carnes; let i=index"  class="list-group-item">
-            <p class="col-12 text-center my-auto"> {{plato.nombre_plato}} </p>
+            <p class="col-12 text-center my-auto"> {{plato.nombre_plato}} - {{plato.precio}} €  </p>
             <div *ngIf="isAdmin" class="col-12 d-flex row no-wrap justify-content-center ">
 
-              <button *ngIf="true" class="btn btn-secondary mr-2 my-auto" type="button" data-toggle="collapse"
-                data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
+              <button *ngIf="true" class="btn btn-secondary mr-2 my-auto" type="button" (click)="modificarPlato(plato)">
                 Editar plato
               </button>
 
@@ -124,11 +122,10 @@
       <div class="card-body py-1">
         <ul class="list-group list-group-flush">
           <li *ngFor="let plato of pescados; let i=index" class="list-group-item">
-            <p class="col-12 text-center my-auto">{{plato.nombre_plato}}</p>
+            <p class="col-12 text-center my-auto">{{plato.nombre_plato}} - {{plato.precio}} € </p>
             <div *ngIf="isAdmin" class="col-12 d-flex row no-wrap justify-content-center ">
 
-              <button *ngIf="true" class="btn btn-secondary mr-2 my-auto" type="button" data-toggle="collapse"
-                data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
+              <button *ngIf="true" class="btn btn-secondary mr-2 my-auto" type="button" (click)="modificarPlato(plato)">
                 Editar plato
               </button>
 
@@ -155,7 +152,19 @@
       <div class="card-body py-1">
         <ul class="list-group list-group-flush">
           <li *ngFor="let plato of postres; let i=index" class="list-group-item">
-            <p class="col-12 text-center my-auto"> {{plato.nombre_plato}} </p>
+            <p class="col-12 text-center my-auto"> {{plato.nombre_plato}} - {{plato.precio}} €  </p>
+            <div *ngIf="isAdmin" class="col-12 d-flex row no-wrap justify-content-center ">
+
+              <button *ngIf="true" class="btn btn-secondary mr-2 my-auto" type="button" (click)="modificarPlato(plato)">
+                Editar plato
+              </button>
+
+              <div class="custom-control custom-switch my-auto">
+                <input type="checkbox" class="custom-control-input" id="switch4" checked>
+                <label class="custom-control-label" for="switch4">Habilitado</label>
+              </div>
+            </div>
+
           </li>
         </ul>
       </div>

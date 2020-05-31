@@ -39,4 +39,8 @@ export class MenuService {
       map(platos => platos as Array<IPlato>)
     );
   }
+
+  updateMenu(id: string, menu: IMenu): Observable<any> {
+    return this.http.post(environment.URL_API + '/updateMenu', {menu, id});
+  }
 }

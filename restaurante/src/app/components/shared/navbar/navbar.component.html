@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light p-3 px-md-4 mb-3 border-bottom box-shadow">
 
-  <a class="navbar-brand" [routerLink]="['home']">Company name</a>
+  <a class="navbar-brand" [routerLink]="['home']">Logo</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -8,11 +8,11 @@
 
   <div class="my-2 my-md-0 mr-md-3 navbar collapse navbar-collapse" id="navbarNavDropdown">
     <div class="d-flex justify-content-xs-center justify-content-md-start flex-column flex-md-row ">
-      <a class="p-2 text-dark" href="#menus">Menús</a>
-      <a class="p-2 text-dark" href="#carta">La Carta</a>
-      <a *ngIf="!isLoggedIn || isClient"class="p-2 text-dark" href="#contacto">Contacto</a>
-      <a *ngIf="isEmployee" class="p-2 text-dark" href="#pedidos">Pedidos</a>
-      <a *ngIf="isAdmin" class="p-2 text-dark" href="#usuarios">Usuarios</a>
+      <a class="p-2 text-dark" href="#" (click)="scrollTo('menus')">Menús</a>
+      <a class="p-2 text-dark" href="#" (click)="scrollTo('carta')">La Carta</a>
+      <a *ngIf="!isLoggedIn || isClient"class="p-2 text-dark" href="#" (click)="scrollTo('contacto')">Contacto</a>
+      <a *ngIf="isEmployee" class="p-2 text-dark" href="#" (click)="scrollTo('pedidos')">Pedidos</a>
+      <a *ngIf="isAdmin" class="p-2 text-dark" href="#" (click)="scrollTo('usuarios')">Usuarios</a>
       <a *ngIf="isLoggedIn" class="p-2 text-dark" [routerLink]="['micuenta/' + userLogged.id_usuario]" > Mi cuenta </a>
     </div>
 

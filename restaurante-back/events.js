@@ -24,16 +24,12 @@ function createRouter(dbConnection) {
   router.post("/enableUser", enableUser);
   router.post("/updateNivel", updateNivel);
   router.post("/updatePlato", updatePlato);
-  router.post("/updateMenu", updateMenu);
+  router.post("/updateMenu", updateMenu, deletePlatosMenu, addPlatosMenu);
   router.post("/updateUser", updateUser);
-  router.post("/updatePwd", updatePwd);
+  router.post("/updatePwd", getUser, updatePwd);
   return router;
 }
 
-const updatePlato= (req,res,next) => {}
-const updateMenu= (req,res,next) => {}
-const updateUser= (req,res,next) => {}
-const updatePwd= (req,res,next) => {}
 
 function getSession() {
   return sess;
@@ -107,15 +103,15 @@ const logout = (req, res, next) => {
 const getUser = (req, res, next) => {
   // console.log(req.body);
   db.query(
-    "SELECT * FROM usuario WHERE usuarioId = ?",
-    [req.body],
+    "SELECT * FROM usuario WHERE id_usuario = ?",
+    [req.body.id],
     (error, result) => {
-      // console.log(error, result);
       if (error) {
         //   console.error(error);
         res.status(500).json({ code: error.code, message: error.sqlMessage });
       } else {
-        res.status(200).json(result);
+        // res.status(200).json(result);
+        next(result);
       }
     }
   );
@@ -203,11 +199,7 @@ const usersList = (req, res, next) => {
 };
 
 const createMenu = (req, res, next) => {
-  // if (req.body.idMenu) {
-
-  // } else {
-
-  // }
+  console.log(req.body);
   db.query(
     "INSERT INTO menu (nombre_menu, descripcion, imagen, precio, habilitado) VALUES (?,?,?,?,?)",
     [
@@ -253,9 +245,11 @@ const deletePlatosMenu = (info, req, res, next) => {
 
 const addPlatosMenu = (info, req, res, next) => {
   let data = [];
+  console.log();
   for (const index in info.platos) {
-    data.push(new Array(info.idMenu, info.platos[index]));
+    data.push(new Array(info.idMenu, info.platos[index].id_plato));
   }
+  console.log('DATA', data);
   db.query(
     "INSERT INTO platos_menu (id_menu, id_plato) VALUES ?",
     [data],
@@ -314,7 +308,7 @@ const createPedido = (req, res, next) => {
       req.body.pedido.email,
       req.body.pedido.pago,
       "PENDIENTE",
-      50,
+      req.body.pedido.precio
     ],
     (error, result) => {
       if (error) {
@@ -485,3 +479,90 @@ const updateNivel = (req, res, next) => {
     }
   );
 };
+
+
+const updateUser= (req,res,next) => {
+  console.log(req.body);
+  db.query(
+    "UPDATE usuario SET nombre = ?, apellido = ?, direccion = ?, email = ?, telefono = ? WHERE id_usuario = ?",
+    [req.body.usuario.nombre, req.body.usuario.apellido, req.body.usuario.direccion, req.body.usuario.email, req.body.usuario.telefono, req.body.id],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+        res.status(500).json({ code: error.code, message: error.sqlMessage });
+      } else {
+        let data = JSON.parse(JSON.stringify(result));
+        console.log("Cambio de estado -> ", data);
+        res.status(200).json(result);
+      }
+    }
+  );
+};
+
+const updatePwd= (userData, req,res,next) => {
+  
+  let userdata = JSON.parse(JSON.stringify(userData));
+  console.log(req.body);
+  console.log(userdata[0].password);
+  if (bcrypt.compareSync(req.body.oldPassword, userdata[0].password)) {
+    newPassword =  bcrypt.hashSync(req.body.newPassword, 4);
+    console.log(newPassword);
+    db.query(
+      "UPDATE usuario SET password = ? WHERE id_usuario = ?",
+      [newPassword, req.body.id],
+      (error, result) => {
+        if (error) {
+          console.log(error);
+          res.status(500).json({ code: error.code, message: error.sqlMessage });
+        } else {
+          let data = JSON.parse(JSON.stringify(result));
+          console.log("Cambio de estado -> ", data);
+          res.status(200).json(result);
+        }
+      }
+    );
+  } else {
+    console.log('Las contraseñas no coinciden');
+    res.end();
+  }
+}
+
+const updatePlato= (req,res,next) => {
+  console.log(req.body);
+  db.query(
+    "UPDATE plato SET nombre_plato = ?, descripcion = ?, precio = ?, tipo = ? WHERE id_plato = ?",
+    [req.body.plato.nombre, req.body.plato.descripcion, req.body.plato.precio, req.body.plato.tipo, req.body.id],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+        res.status(500).json({ code: error.code, message: error.sqlMessage });
+      } else {
+        let data = JSON.parse(JSON.stringify(result));
+        console.log("Cambio de estado -> ", data);
+        res.status(200).json(result);
+      }
+    }
+  );
+}
+
+const updateMenu= (req,res,next) => {
+  console.log(req.body);
+  db.query(
+    "UPDATE menu SET nombre_menu = ?, descripcion = ?, imagen = ?, precio = ? WHERE id_menu = ?",
+    [req.body.menu.nombre, req.body.menu.descripcion, req.body.menu.imagen, req.body.menu.precio, req.body.id],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+        res.status(500).json({ code: error.code, message: error.sqlMessage });
+      } else {
+        let data = JSON.parse(JSON.stringify(result));
+        console.log("Cambio de estado -> ", data);
+        let info = {
+          idMenu: req.body.id,
+          platos: req.body.menu.platos,
+        };
+        next(info);
+      }
+    }
+  );
+}

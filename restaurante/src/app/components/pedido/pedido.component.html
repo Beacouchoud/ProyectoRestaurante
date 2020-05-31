@@ -23,14 +23,21 @@
         />
       </div>
     </div>
+  </div>
 
-    <div class="d-flex row col-4 mx-auto border border-primary p-3">
-      <div class="col-6">
-        <h5>Total a pagar</h5>
-      </div>
-      <div class="col-6">
-        <h5>xx €</h5>
-      </div>
+  <div class="d-flex row col-3 mx-auto border border-primary p-3 mb-3 justify-content-center">
+    <div class="col-6">
+      <h5>Total a pagar </h5>
+    </div>
+    <div class="col-5">
+      <h5>{{precioFinal}} €</h5>
+      <input [formControlName]="'precio'"
+        class="w-50 d-none"
+        type="number"
+        min="0"
+        max="10"
+        step="1"
+      />
     </div>
   </div>
 
@@ -78,7 +85,7 @@
 
       <!-- fecha -->
       <input
-        type="date" [formControlName]="'fecha'"
+        type="date" [formControlName]="'fecha'" min="{{fechasDisponibles}}"
         id="defaultRegisterFormPassword"
         class="form-control mb-4"
         placeholder="Password"
@@ -98,7 +105,7 @@
 
   <h5>FORMA DE PAGO</h5>
   <div class="container">
-    <div class="d-flex row col-4 mx-auto justify-content-center">
+    <div class="d-flex row col-4 mx-auto justify-content-center mb-3">
       <!-- Default inline 1-->
       <div class="custom-control custom-radio custom-control-inline">
         <input
@@ -122,11 +129,29 @@
       </div>
     </div>
     <div class="d-flex row col-4 mx-auto border border-primary p-3">
-      <div class="col-12">
-        <h5>Total xx €</h5>
+      <div class="col-12 text-center" *ngIf="error === true">
+        <div class="alert alert-danger mb-4 animate__animated animate__shakeX" role="alert">
+          {{ msg }}
+        </div>
+        <div class="col-12">
+          <button class="btn btn-primary my-4 btn-block"  [disabled]="!isValid" (click)="nuevoPedido()" type="button">Realizar un nuevo pedido</button>
+        </div>
+      </div>
+
+      <div class="col-12 text-center" *ngIf="error === false">
+        <div class="alert alert-success mb-4 animate__animated animate__fadeIn" role="alert">
+          {{ msg }}
+        </div>
+        <div class="col-12">
+          <button class="btn btn-primary my-4 btn-block"  [disabled]="!isValid" (click)="nuevoPedido()" type="button">Realizar un nuevo pedido</button>
+        </div>
+      </div>
+
+      <div class="col-12" *ngIf="error === null">
+        <h5>Total {{precioFinal}} €</h5>
         <small>IVA incluido</small>
       </div>
-      <div class="col-12">
+      <div class="col-12"  *ngIf="error === null">
         <button class="btn btn-primary my-4 btn-block"  [disabled]="!isValid" type="submit">CONFIRMAR</button>
       </div>
     </div>

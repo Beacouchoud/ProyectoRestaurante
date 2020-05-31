@@ -25,4 +25,8 @@ export class PlatoService {
   enablePlato(habilitado: number, id: string): Observable<any> {
     return this.http.post(environment.URL_API + '/enablePlato', {habilitado, id});
   }
+
+  updatePlato(id: string, plato: IPlato): Observable<any> {
+    return this.http.post(environment.URL_API + '/updatePlato', {plato, id});
+  }
 }

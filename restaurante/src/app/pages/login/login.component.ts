@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   private initForm(): void {
     this.form = this.formBuilder.group({
       email: [null, [Validators.email, Validators.required]],
-      password: ['asdasdasd', [Validators.minLength(8), Validators.required]]
+      password: [null, [Validators.minLength(8), Validators.required]]
     });
   }
 
@@ -44,9 +44,10 @@ export class LoginComponent implements OnInit {
             this.error = true;
           }
         },
-        (error) => this.handleError(error)
+        (error) => {this.handleError(error)}
       );
     } else {
+      this.msg = 'Rellene correctamente todos los campos';
       this.error = true;
     }
   }

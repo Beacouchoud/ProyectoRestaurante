@@ -3,6 +3,17 @@
 
   <form  [formGroup]="form" class="form-group d-flex form-row " (submit)="creaMenu()">
 
+    <div class="col-12 text-center" *ngIf="error === true">
+      <div class="alert alert-danger mb-4 animate__animated animate__shakeX" role="alert">
+        {{ msg }}
+      </div>
+    </div>
+    <div class="col-12 text-center" *ngIf="error === false">
+      <div class="alert alert-success mb-4 animate__animated animate__fadeIn" role="alert">
+        {{ msg }}
+      </div>
+    </div>
+
     <div class="col-md-6 mb-2">
       <input type="text" [formControlName]="'nombre'" placeholder="Nombre del menú" class="form-control">
     </div>

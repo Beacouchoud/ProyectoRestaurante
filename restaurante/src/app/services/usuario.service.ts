@@ -34,7 +34,11 @@ export class UsuarioService {
   }
 
   updateUsuario(id: string, usuario: IUsuario): Observable<any> {
-    return this.http.post(environment.URL_API + '/updateUsuario', {id, usuario});
+    return this.http.post(environment.URL_API + '/updateUser', {id, usuario});
+  }
+
+  updatePwd(id: string, data: any): Observable<any> {
+    return this.http.post(environment.URL_API + '/updatePwd', {id, newPassword: data.newPassword1, oldPassword: data.password});
   }
 
   login(user: any): Observable<any> {

@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Utils } from 'src/app/models/utils';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-micuenta',
@@ -14,11 +15,12 @@ export class MicuentaComponent extends Utils implements OnInit {
   public usuario: IUsuario;
   public formUserData: FormGroup;
   public formPwd: FormGroup;
-  public error: boolean;
-  public errorCode: string;
-  public msg: string;
+  public error1: boolean;
+  public msg1: string;
+  public error2: boolean;
+  public msg2: string;
 
-  constructor(private fb: FormBuilder, private usuSrv: UsuarioService) {
+  constructor(private fb: FormBuilder, private usuSrv: UsuarioService, private router: Router) {
     super(usuSrv);
   }
 
@@ -27,8 +29,12 @@ export class MicuentaComponent extends Utils implements OnInit {
     if (!this.usuario) {
       this.usuSrv.getActiveUser().subscribe((loggedUser: IUsuario) => {
         this.usuario = loggedUser;
-        console.log('usuario0',loggedUser);
-        this.initForm();
+        if (!this.usuario) {
+          sessionStorage.removeItem('token');
+          this.router.navigate(['/login']);
+        } else {
+          this.initForm();
+        }
       });
     } else {
       this.initForm();
@@ -39,21 +45,17 @@ export class MicuentaComponent extends Utils implements OnInit {
   private initForm(): void {
     this.formUserData = this.fb.group({
       apellido: [
-        this.usuario.apellido,
+        this.usuario.apellido || null,
         [Validators.pattern('[a-zA-ZÑñ ]*'), Validators.required],
       ],
       nombre: [
-        this.usuario.nombre,
+        this.usuario.nombre || null,
         [Validators.pattern('[a-zA-ZÑñ ]*'), Validators.required],
       ],
-      direccion: [this.usuario.direccion, [Validators.required]],
-      email: [this.usuario.email, [Validators.email, Validators.required]],
-      password: [
-        this.usuario.password,
-        [Validators.minLength(8), Validators.required],
-      ],
+      direccion: [this.usuario.direccion || null, [Validators.required]],
+      email: [this.usuario.email || null, [Validators.email, Validators.required]],
       telefono: [
-        this.usuario.telefono,
+        this.usuario.telefono || null,
         [Validators.pattern('[0-9]*'), Validators.required],
       ],
     });
@@ -66,46 +68,60 @@ export class MicuentaComponent extends Utils implements OnInit {
 
   public modificarDatos(): void {
     if (this.formUserData.valid) {
-      this.usuSrv
-        .updateUsuario(
+      this.usuSrv.updateUsuario(
           this.usuario.id_usuario.toString(),
           this.formUserData.getRawValue()
-        )
-        .subscribe(
-          (usu: IUsuario) => (this.usuario = usu),
-          (error) => this.handleError(error)
+        ).subscribe(
+          (res) => {this.msg1 = 'Datos modificados correctamente';this.error1 = false;
+            setTimeout(() => {
+              this.error1 = null; this.msg1 = '';
+            }, 2000);
+          },
+          (error) =>{
+            if (error.error.code === 'ER_DUP_ENTRY') {
+              this.msg1 = 'Este email ya esta en uso';
+            }
+            else {
+              this.msg1 = 'No se ha podido modificar el usuario';
+            }
+            this.error1 = true;
+          }
         );
     }
   }
 
   public modificarPassword(): void {
+    console.log('aa');
     if (this.formPwd.valid) {
-      this.usuSrv
-        .updateUsuario(
-          this.usuario.id_usuario.toString(),
-          this.formPwd.getRawValue()
-        )
-        .subscribe(
-          (usu: IUsuario) => (this.usuario = usu),
-          (error) => this.handleError(error)
-        );
-    }
-  }
-
-  public hasError(formControlName: string): boolean {
-    return (
-      this.formUserData.controls[formControlName].errors &&
-      this.formUserData.controls[formControlName].dirty
-    );
-  }
-
-  handleError(error: HttpErrorResponse) {
-    this.errorCode = error.error.code;
-    if (this.errorCode === 'ER_DUP_ENTRY') {
-      this.msg = 'El email ya está en uso';
+      console.log('valido');
+      if (this.formPwd.getRawValue().newPassword1.toString() === this.formPwd.getRawValue().newPassword2.toString()) {
+        console.log('coinciden');
+        this.usuSrv.updatePwd(this.usuario.id_usuario.toString(), this.formPwd.getRawValue())
+            .subscribe(
+            (res) => {
+              if (res.affectedRows === 0) {
+                this.msg2 = 'La contraseña actual no coincide';
+                this.error2 = true;
+              } else {
+                this.msg2 = 'Contraseña actualizada correctamente';
+                this.error2 = false;
+                setTimeout(() => {
+                  this.error1 = null; this.msg1 = '';
+                }, 2000);
+              }
+            },
+            (error) => {
+              this.msg2 = 'No se ha podido modificar la contraseña';
+              this.error2 = true;
+            });
+      } else {
+        console.log('no coinciden');
+        this.msg2 = 'La nueva contraseña no coincide';
+        this.error2 = true;
+      }
     } else {
-      this.msg = error.error.message;
+      this.msg2 = 'Hay errores en el formulario';
+      this.error2 = true;
     }
-    this.error = true;
   }
 }

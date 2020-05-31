@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IPlato } from 'src/app/models/plato.model';
 import { PlatoService } from 'src/app/services/plato.service';
 import { ETipoPlato } from 'src/app/models/plato-tipo';
 import { Utils } from '../../models/utils';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { PlatoformComponent } from '../platoform/platoform.component';
 
 @Component({
   selector: 'app-carta',
@@ -14,7 +15,9 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class CartaComponent extends Utils implements OnInit {
 
   private platosCarta: Array<IPlato>;
+  public isCollapsed = true;
 
+  @ViewChild(PlatoformComponent) platoFormComponent: PlatoformComponent;
   constructor(private pltSrv: PlatoService, private usuSrv: UsuarioService) {
     super(usuSrv);
     this.platosCarta = new Array();
@@ -73,6 +76,29 @@ export class CartaComponent extends Utils implements OnInit {
         (error) => console.log('error', error)
       );
   }
+
+  public modificarPlato(plato: IPlato): void {
+    this.platoFormComponent.platoSeleccionado = plato;
+    this.platoFormComponent.initForm();
+    this.isCollapsed = false;
+    this.scrollTo('carta');
+  }
+
+  public nuevoPlato() {
+    this.platoFormComponent.platoSeleccionado = null;
+    this.platoFormComponent.initForm();
+    this.isCollapsed = false;
+    this.scrollTo('carta');
+  }
+
+  public scrollTo(ancla: string) {
+    let x = document.querySelector("#"+ancla);
+    if (x){
+      x.scrollIntoView({block: "start", behavior: "smooth"});
+    }
+    return false;
+  }
+
 }
 
 

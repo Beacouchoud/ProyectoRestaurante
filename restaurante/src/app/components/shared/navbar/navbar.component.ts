@@ -19,6 +19,21 @@ export class NavbarComponent extends Utils implements OnInit {
   ngOnInit(): void {
   }
 
+  public scrollTo(ancla) {
+    let x = document.querySelector("#"+ancla);
+    if (x){
+      x.scrollIntoView({block: "start", behavior: "smooth"});
+    } else {
+      this.router.navigate(['/home']).then(() => {
+        let x = document.querySelector("#"+ancla);
+        if (x) {
+          x.scrollIntoView({block: "start", behavior: "smooth"});
+        }
+      });
+    }
+    return false;
+  }
+
   public logout(): void {
     this.usuSrv.logout()
     .subscribe(

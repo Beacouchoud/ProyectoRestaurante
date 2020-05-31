@@ -1,5 +1,5 @@
 
-<h1 *ngIf="isAdmin" class="my-4 text-center">Pedidos</h1>
+<h1 *ngIf="isEmployee" class="my-4 text-center">Pedidos</h1>
 
 <div class="table-responsive">
   <table class="table table-light">
@@ -28,7 +28,7 @@
         <td class="d-none d-md-table-cell">{{pedido.fecha|date}}</td>
         <td class="d-none d-md-table-cell">{{pedido.direccion}}</td>
         <td class="d-none d-md-table-cell">
-          <div class="form-group" *ngIf="isAdmin">
+          <div class="form-group" *ngIf="isEmployee">
             <ng-select [disabled]="pedido.estado === enumEstados.CANCELADO" [items]="estados" [bindLabel]="'label'" [bindValue]="'value'" [(ngModel)]="pedido.estado"  (change)="onSelectChange($event, pedido)" [id]="'estado-' + pedido.id_pedido"   [multiple]="false" >
             </ng-select>
           </div>

@@ -65,11 +65,21 @@ export class MenusComponent extends Utils implements OnInit {
       this.menuFormComponent.menuSeleccionado = menu;
       this.menuFormComponent.initForm();
       this.isCollapsed = false;
+      this.scrollTo('menus');
     }
 
     public nuevoMenu() {
       this.menuFormComponent.menuSeleccionado = null;
       this.menuFormComponent.initForm();
       this.isCollapsed = false;
+      this.scrollTo('menus');
+    }
+
+    public scrollTo(ancla: string) {
+      let x = document.querySelector("#"+ancla);
+      if (x){
+        x.scrollIntoView({block: "start", behavior: "smooth"});
+      }
+      return false;
     }
   }
